@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="{% static 'usuario/css/black-dashboard.css' %}" rel="stylesheet"/>
+    <title>Log In</title>
+  </head>
+  <body>
+    <div class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">Usuarios</h4>
+              {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}" class="btn btn-fill btn-primary">Logout</a>
+              {% endif %}
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table tablesorter" id="">
+                  <thead class="text-primary">
+                    <tr>
+                      <th>Username</th>
+                      <th>Email</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for user in users %}
+                    <tr>
+                      <th>{{ user.username }}</th>
+                      <th>{{ user.email }}</th>
+                      <th><button
+                        type="submit"
+                        name="login"
+                        class="btn btn-fill btn-primary"
+                      >Delete</th>
+                      <th><button
+                        type="submit"
+                        name="login"
+                        class="btn btn-fill btn-primary"
+                      >Atualizar</th>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
