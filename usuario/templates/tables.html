@@ -24,6 +24,7 @@
                 <table class="table tablesorter" id="">
                   <thead class="text-primary">
                     <tr>
+                      <th>Id</th>
                       <th>Username</th>
                       <th>Email</th>
                     </tr>
@@ -32,17 +33,9 @@
                     {% for user in users %}
                     <tr>
                       <th>{{ user.username }}</th>
-                      <th>{{ user.email }}</th>
-                      <th><button
-                        type="submit"
-                        name="login"
-                        class="btn btn-fill btn-primary"
-                      >Delete</th>
-                      <th><button
-                        type="submit"
-                        name="login"
-                        class="btn btn-fill btn-primary"
-                      >Atualizar</th>
+                      <th contenteditable="true">{{ user.email }}</th>
+                      <th><a type="submit" class="btn btn-fill btn-primary" href="delete/{{ user.id }}">Delete</th>
+                      <th><a type="submit"  class="btn btn-fill btn-primary" href="{% url 'update' %}" method="PUT">Atualizar</th>
                     </tr>
                     {% endfor %}
                   </tbody>

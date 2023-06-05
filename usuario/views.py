@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.http.response import HttpResponse
 from .forms import *
 from django.contrib.auth.models import User
 from django.contrib.auth import logout,login
@@ -13,51 +12,55 @@ def login_sistem(request):
                      username = form.cleaned_data['username']
                      password = form.cleaned_data['password']
                      user = authenticate(username=username, password=password)
-                     if user:
+                     if user is not None:
                             login(request,user)
-                            return home(request)
-                           
-                     else:
-                            return HttpResponse('Email ou senha Invalido')
+                            return render(request,'tables.html',{'users':User.objects.all()})
     else:
-        form = authForm()
-            
-    return render(request,'login.html',{'form':form})
+        form = authForm()    
+        return render(request,'login.html',{'form':form})
 
 
-def register(request=""):
+def register_user(request):
     msg = None
-    success = False
-
     if request.method == "POST":
         form = registerForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data.get("username")
             password = form.cleaned_data.get("password1")
-            user = User.objects.filter(username=username).first()
+            email = form.cleaned_data.get("email")
+            user = User.objects.filter(username=username).first()#substituir por get
             if user:
                 msg = "Usuario ja Existe"
-                return render(request, "register.html", {"form": form, "msg": msg, "success": success})
+                return render(request, "register.html", {"form": form, "msg": msg})
             else:
-                user = User.objects.create_user(username=username,password=password)
+                user = User.objects.create_user(username=username,password=password,email=email)
                 user.save()
                 msg = "Salvo com sucesso"
                 form = authForm()
                 return render(request,'login.html',{'form':form})
     else:
         form = registerForm()
-
-    return render(request,'register.html',{'form':form})
+        return render(request,'register.html',{'form':form})
     
-@login_required(login_url="home")
-def home(request):
+@login_required(login_url="login")
+def to_home_page(request=""):
     users =  User.objects.all()
     return render(request,'tables.html',{'users':users})
 
 
-def logout_sis(request):
+def logout_sistem(request):
     logout(request)
-    return redirect('login')  
+    form = authForm()
+    return render(request,'login.html',{'form':form})
 
-def delete(number_row):
-    pass
+def delete(request,id):
+    User.objects.get(id=id).delete()
+    users =  User.objects.all()
+    return render(request,'tables.html',{'users':users})
+
+
+@login_required
+def update_user(request):
+    if request=="PUT":
+        User.objects.filter(id=id).update()
+    return render(request, 'update_user.html', {'users': User.objects.all()})
