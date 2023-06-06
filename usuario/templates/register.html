@@ -15,8 +15,11 @@
           <div class="col-md-6 mt-5 offset-md-3 pt-5 mt-5">
             <div class="card">
               <div class="card-header text-center py-4">
+                {% if user.is_authenticated %}
+                <h4 class="title">Cadastrar Novo Usuario</h4>
+                {% else %}
                 <h4 class="title">Inscreva-se</h4>
-
+                {% endif %}
                 <h6 class="card-category">
                   {% if msg %}
                   <span class="text-danger">{{ msg | safe }}</span>
@@ -29,13 +32,9 @@
               {% if success %}
 
               <div class="card-footer text-center">
-                <a href="{% url 'login' %}" class="btn btn-fill btn-primary"
-                  >Login</a
-                >
+                <a href="{% url 'login' %}" class="btn btn-fill btn-primary">Login</a>
               </div>
-
               {% else %}
-
               <form role="form" method="post" action="">
                 {% csrf_token %}
 
@@ -81,23 +80,18 @@
                   </div>
                 </div>
                 <div class="card-footer text-center">
-                  <button
-                    type="submit"
-                    name="register"
-                    class="btn btn-fill btn-primary"
-                  >
-                    Registre-se
-                  </button>
-
-                  <br /><br />
-
-                  <p>
-                    Ja tem uma conta?
-                    <a href="{% url 'login' %}" class="text-primary">Login</a>
-                  </p>
-                </div>
+                {% if user.is_authenticated %}
+                  <button type="submit" name="register" class="btn btn-fill btn-primary" href="{% url 'login' %}">Salvar</button>
+                {% else %}
+                  <button type="submit" name="register" class="btn btn-fill btn-primary">Registre-se</button>
+                <br/><br/>
+                <p>
+                  Ja tem uma conta?
+                  <a href="{% url 'login' %}" class="text-primary">Login</a>
+                </p>
+                {% endif %}                
+              </div>
               </form>
-
               {% endif %}
             </div>
           </div>
