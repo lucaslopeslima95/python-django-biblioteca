@@ -6,7 +6,12 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 
 def login_sistem(request):
-    if request.method == "POST":
+
+    if request.user.is_authenticated:
+         updateForm = update_User_Form()
+         return render(request,'tables.html',{'users':User.objects.all(),'form':updateForm})
+    
+    elif request.method == "POST":
               form = authForm(request.POST)
               if form.is_valid():
                      username = form.cleaned_data['username']
@@ -14,7 +19,8 @@ def login_sistem(request):
                      user = authenticate(username=username, password=password)
                      if user is not None:
                             login(request,user)
-                            return render(request,'tables.html',{'users':User.objects.all()})
+                            updateForm = update_User_Form()
+                            return render(request,'tables.html',{'users':User.objects.all(),'form':updateForm})
     else:
         form = authForm()    
         return render(request,'login.html',{'form':form})
@@ -61,6 +67,17 @@ def delete(request,id):
 
 @login_required
 def update_user(request):
-    if request=="PUT":
-        User.objects.filter(id=id).update()
-    return render(request, 'update_user.html', {'users': User.objects.all()})
+    cont = 0
+    if request.method == "POST":
+        username = request.POST.get('username')
+        cont = User.objects.filter(username=username).count()
+        if cont>0:
+            user = User.objects.get('username')
+            user.email = request.POST.get('email')
+            user.set_password(request.POST.get('password'))
+            user.save()
+            users = User.objects.all()
+            return render(request, 'tables.html', {'users': users})
+    else:
+        users = User.objects.all()
+        return render(request, 'tables.html', {'users': users})
