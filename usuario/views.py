@@ -1,15 +1,19 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from .forms import *
 from django.contrib.auth.models import User
 from django.contrib.auth import logout,login
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 
+
+def is_loged(request):
+    updateForm = update_User_Form()
+    return render(request,'tables.html',{'users':User.objects.all(),'form':updateForm})
+
 def login_sistem(request):
 
     if request.user.is_authenticated:
-         updateForm = update_User_Form()
-         return render(request,'tables.html',{'users':User.objects.all(),'form':updateForm})
+        return is_loged(request)
     
     elif request.method == "POST":
               form = authForm(request.POST)
@@ -19,8 +23,7 @@ def login_sistem(request):
                      user = authenticate(username=username, password=password)
                      if user is not None:
                             login(request,user)
-                            updateForm = update_User_Form()
-                            return render(request,'tables.html',{'users':User.objects.all(),'form':updateForm})
+                            return is_loged(request)
     else:
         form = authForm()    
         return render(request,'login.html',{'form':form})
@@ -49,7 +52,7 @@ def register_user(request):
         return render(request,'register.html',{'form':form})
     
 @login_required(login_url="login")
-def to_home_page(request=""):
+def to_home_page(request):
     users =  User.objects.all()
     return render(request,'tables.html',{'users':users})
 
@@ -59,9 +62,13 @@ def logout_sistem(request):
     form = authForm()
     return render(request,'login.html',{'form':form})
 
+@login_required
 def delete(request,id):
-    User.objects.get(id=id).delete()
-    users =  User.objects.all()
+    try:
+        User.objects.get(id=id).delete()
+        users =  User.objects.all() 
+    except Exception as e: 
+        print(e)
     return render(request,'tables.html',{'users':users})
 
 

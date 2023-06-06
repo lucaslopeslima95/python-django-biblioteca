@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'usuario/css/black-dashboard.css' %}" rel="stylesheet" />
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="d-flex flex-row m-0 ">
+        <div>
+            {% include 'side-bar.html' %}
+        </div>
+        <div>
+            <table class="table w-100">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Titulo</th>
+                        <th scope="col">Autor</th>
+                        <th scope="col">Descrição</th>
+                        <th scope="col">ISBN</th>
+                        <th scope="col">Disponibilidade</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for livro in livros %}
+                        <tr>
+                            <td>{{ livro.id }}</td>
+                            <td>{{ livro.titulo }}</td>
+                            <td>{{ livro.authors }}</td>
+                            <td>{{ livro.descricao }}</td>
+                            <td>{{ livro.isbn }}</td>
+                            {% if livro.esta_disponivel %}
+                            <td>Disponivel</td>
+                            <td><button class="btn btn-secondary">Reservar</button></td>
+                            {% else %}
+                            <td>Indisponivel</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+        </div>
+    </div>
+    </div>
+</body>
+</html>
