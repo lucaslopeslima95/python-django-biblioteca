@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .forms import *
 from django.contrib.auth.models import User
 from django.contrib.auth import logout,login
@@ -6,50 +6,55 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 
 
-def is_loged(request):
+def is_logged(request):
     updateForm = update_User_Form()
     return render(request,'tables.html',{'users':User.objects.all(),'form':updateForm})
 
-def login_sistem(request):
-
+def login_system(request):
     if request.user.is_authenticated:
-        return is_loged(request)
+        return is_logged(request)
     
-    elif request.method == "POST":
-              form = authForm(request.POST)
-              if form.is_valid():
-                     username = form.cleaned_data['username']
-                     password = form.cleaned_data['password']
-                     user = authenticate(username=username, password=password)
-                     if user is not None:
-                            login(request,user)
-                            return is_loged(request)
+    if request.method == "POST":
+        form = authForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return is_logged(request)
+        else:
+            form.add_error(None, "Credenciais inválidas.")
     else:
         form = authForm()    
-        return render(request,'login.html',{'form':form})
+    return render(request, 'login.html', {'form': form})
+
 
 
 def register_user(request):
-    msg = None
     if request.method == "POST":
         form = registerForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get("username")
-            password = form.cleaned_data.get("password1")
-            email = form.cleaned_data.get("email")
-            user = User.objects.filter(username=username).first()#substituir por get
-            if user:
-                msg = "Usuario ja Existe"
-                return render(request, "register.html", {"form": form, "msg": msg})
-            else:
-                user = User.objects.create_user(username=username,password=password,email=email)
-                user.save()
-                msg = "Salvo com sucesso"
-                form = authForm()
-                return render(request,'login.html',{'form':form})
+        try:
+            if form.is_valid():
+                username = form.cleaned_data['username']
+                password = form.cleaned_data['password1']
+                email = form.cleaned_data['email']
+                
+                if User.objects.filter(username=username).exists():
+                    msg = "Usuário já existe"
+                    form.add_error('username', msg)
+                else:
+                    user = User.objects.create_user(username=username, password=password, email=email)
+                    msg = "Salvo com sucesso"
+                    form = authForm()
+                    return is_logged(request,{'msg':msg})
+        except Exception as e:
+            msg = "Ocorreu um erro ao registrar o usuário"
+            form.add_error(None, msg)
     else:
         form = registerForm()
-        return render(request,'register.html',{'form':form})
+        return render(request, 'register.html', {'form': form})
+
     
 @login_required(login_url="login")
 def to_home_page(request):
@@ -57,28 +62,30 @@ def to_home_page(request):
     return render(request,'tables.html',{'users':users})
 
 
-def logout_sistem(request):
+def logout_system(request):
     logout(request)
-    form = authForm()
-    return render(request,'login.html',{'form':form})
+    return redirect('login')
 
 @login_required
-def delete(request,id):
+def delete(request, id):
     try:
-        User.objects.get(id=id).delete()
-        users =  User.objects.all() 
-    except Exception as e: 
+        user = User.objects.get(id=id)
+        user.delete()
+        users = User.objects.all()
+    except User.DoesNotExist:
+        users = User.objects.all()
+    except Exception as e:
         print(e)
-    return render(request,'tables.html',{'users':users})
+        users = User.objects.all()
+    
+    return render(request, 'tables.html', {'users': users})
 
 
 @login_required
 def update_user(request):
-    cont = 0
     if request.method == "POST":
         username = request.POST.get('username')
-        cont = User.objects.filter(username=username).count()
-        if cont>0:
+        if User.objects.filter(username=username).exists():
             user = User.objects.get('username')
             user.email = request.POST.get('email')
             user.set_password(request.POST.get('password'))

@@ -1,14 +1,27 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="{% static 'usuario/css/black-dashboard.css' %}" rel="stylesheet"/>
-    <title>Document</title>
-  </head>
-  <body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="{% static 'usuario/css/black-dashboard.css' %}" rel="stylesheet" />
+  <title>Cadastro Livro</title>
+</head>
+
+<body>  
+  <h6 class="card-category">
+    {% if msg %}
+    <span class="text-danger">{{ msg | safe }}</span>
+    {% else %}
+    <span> Informe seus dados </span>
+    {% endif %}
+  </h6>
+  <div class="d-flex flex-row ">
+    <div>
+      {% include 'side-bar.html' %}
+    </div>
     <div class="content">
       <div class="container">
         <div class="row pt-5">
@@ -20,16 +33,10 @@
                 {% else %}
                 <h4 class="title">Inscreva-se</h4>
                 {% endif %}
-                <h6 class="card-category">
-                  {% if msg %}
-                  <span class="text-danger">{{ msg | safe }}</span>
-                  {% else %}
-                  <span> Informe seus dados </span>
-                  {% endif %}
-                </h6>
               </div>
 
               {% if success %}
+
               <div class="card-footer text-center">
                 <a href="{% url 'login' %}" class="btn btn-fill btn-primary">Login</a>
               </div>
@@ -44,9 +51,7 @@
                         <label>Username</label>
                         {{ form.username }}
                       </div>
-                      <span class="text-danger"
-                        >{{ form.username.errors }}</span
-                      >
+                      <span class="text-danger">{{ form.username.errors }}</span>
                     </div>
 
                     <div class="col-md-12 px-md-1">
@@ -62,9 +67,7 @@
                         <label>Password</label>
                         {{ form.password1 }}
                       </div>
-                      <span class="text-danger"
-                        >{{ form.password1.errors }}</span
-                      >
+                      <span class="text-danger">{{ form.password1.errors }}</span>
                     </div>
 
                     <div class="col-md-12 px-md-1">
@@ -72,24 +75,23 @@
                         <label>Password Check</label>
                         {{ form.password2 }}
                       </div>
-                      <span class="text-danger"
-                        >{{ form.password2.errors }}</span
-                      >
+                      <span class="text-danger">{{ form.password2.errors }}</span>
                     </div>
                   </div>
                 </div>
                 <div class="card-footer text-center">
-                {% if user.is_authenticated %}
-                  <button type="submit" name="register" class="btn btn-fill btn-primary" href="{% url 'login' %}">Salvar</button>
-                {% else %}
+                  {% if user.is_authenticated %}
+                  <button type="submit" name="register" class="btn btn-fill btn-primary"
+                    href="{% url 'login' %}">Salvar</button>
+                  {% else %}
                   <button type="submit" name="register" class="btn btn-fill btn-primary">Registre-se</button>
-                <br/><br/>
-                <p>
-                  Ja tem uma conta?
-                  <a href="{% url 'login' %}" class="text-primary">Login</a>
-                </p>
-                {% endif %}                
-              </div>
+                  <br /><br />
+                  <p>
+                    Ja tem uma conta?
+                    <a href="{% url 'login' %}" class="text-primary">Login</a>
+                  </p>
+                  {% endif %}
+                </div>
               </form>
               {% endif %}
             </div>
@@ -97,5 +99,7 @@
         </div>
       </div>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>
