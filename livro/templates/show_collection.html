@@ -7,48 +7,66 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{% static 'usuario/css/black-dashboard.css' %}" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/9958a2dab0.js" crossorigin="anonymous"></script>
     <title>Document</title>
 </head>
 
 <body>
-    <div class="d-flex flex-row ">
-        <div>
-            {% include 'side-bar.html' %}
-        </div>
-        <div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Titulo</th>
-                        <th scope="col">Autor</th>
-                        <th scope="col">Descrição</th>
-                        <th scope="col">ISBN</th>
-                        <th scope="col">Disponibilidade</th>
+    <div class="d-flex flex-row m-0 overflow-hidden">
+        {% include 'side-bar.html' %}
+        <div class="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Livros</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <form method="POST" class="w-25 d-flex flex-row">
+                                    {% csrf_token %}
+                                    {{ conteudo_pesquisa_form }}
+                                    <a type="submit" name="login" class="btn btn-fill btn-primary">
+                                        <i class="fa-sharp fa-solid fa-magnifying-glass"></i>
+                                    </a>
+                                </form>
+                                <table class="table table-striped-columns">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Titulo</th>
+                                            <th scope="col">Autor</th>
+                                            <th scope="col">Descrição</th>
+                                            <th scope="col">ISBN</th>
+                                            <th scope="col">Disponibilidade</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for livro in livros %}
+                                        <tr>
+                                            <td>{{ livro.id }}</td>
+                                            <td>{{ livro.titulo }}</td>
+                                            <td>{{ livro.authors }}</td>
+                                            <td>{{ livro.descricao }}</td>
+                                            <td>{{ livro.isbn }}</td>
+                                            {% if livro.esta_disponivel %}
+                                            <td>Disponivel</td>
+                                            <td><a class="btn btn-fill btn-primary">Reservar</a></td>
+                                            <th><a type="submit" class="btn btn-fill btn-primary"
+                                                    href="delete/{{ livro.id }}">Delete</th>
+                                            {% else %}
+                                            <td>Indisponivel</td>
+                                            <td><a type="hidden" disabled class="btn btn-fill btn-primary">Reservar</a></td>
+                                            <th><a type="hidden" disabled class="btn btn-fill btn-primary" href="delete/{{ livro.id }}">Delete</th>
+                                            {% endif %}
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
 
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for livro in livros %}
-                        <tr>
-                            <td>{{ livro.id }}</td>
-                            <td>{{ livro.titulo }}</td>
-                            <td>{{ livro.authors }}</td>
-                            <td>{{ livro.descricao }}</td>
-                            <td>{{ livro.isbn }}</td>
-                            {% if livro.esta_disponivel %}
-                            <td>Disponivel</td>
-                            <td><button class="btn btn-secondary">Reservar</button></td>
-                            {% else %}
-                            <td>Indisponivel</td>
-                            {% endif %}
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            
-        </div>
-    </div>
-    </div>
+                            </div>
+                        </div>
+                    </div>
 </body>
+
 </html>

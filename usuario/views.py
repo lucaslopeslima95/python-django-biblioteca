@@ -71,12 +71,10 @@ def delete(request, id):
     try:
         user = User.objects.get(id=id)
         user.delete()
-        users = User.objects.all()
-    except User.DoesNotExist:
-        users = User.objects.all()
     except Exception as e:
         print(e)
-        users = User.objects.all()
+        
+    users = User.objects.all()
     
     return render(request, 'tables.html', {'users': users})
 
