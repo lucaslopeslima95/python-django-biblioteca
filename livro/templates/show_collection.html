@@ -21,7 +21,6 @@
                                 <table class="table table-striped-columns">
                                     <thead>
                                         <tr>
-                                            <th scope="col">ID</th>
                                             <th scope="col">Titulo</th>
                                             <th scope="col">Autor</th>
                                             <th scope="col">Descrição</th>
@@ -32,7 +31,6 @@
                                     <tbody>
                                         {% for livro in livros %}
                                         <tr>
-                                            <td>{{ livro.id }}</td>
                                             <td>{{ livro.titulo }}</td>
                                             <td>{{ livro.authors }}</td>
                                             <td>{{ livro.descricao }}</td>

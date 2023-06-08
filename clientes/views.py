@@ -3,10 +3,12 @@ from .models import Cliente
 from . import forms
 
 def listar_clientes(request,aviso_ao_usuario="",nome_cliente="listar_todos"):
+    print(nome_cliente)
     try:
         if nome_cliente == "listar_todos":
             clientes = Cliente.objects.all()
         else:
+            clientes=""
             clientes = Cliente.objects.filter(nome__startswith=nome_cliente)
     except Exception as e:
         print(e)
@@ -60,10 +62,15 @@ def atualizar_cliente(request):#Terminar o update
         return listar_clientes(request)
     
     
+from django.shortcuts import render
+
 def pesquisar_cliente(request):
     if request.method == "POST":
         form_busca_cliente_nome = forms.BuscaClienteNomeForm(request.POST)
         if form_busca_cliente_nome.is_valid():
             nome_cliente = form_busca_cliente_nome.cleaned_data.get("nome")
-            listar_clientes(request,nome_cliente=nome_cliente)
+            listar_clientes(request, nome_cliente=nome_cliente)
+    else:
+        form_busca_cliente_nome = forms.BuscaClienteNomeForm()
     
+    return listar_clientes(request,nome_cliente=nome_cliente)

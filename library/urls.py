@@ -3,10 +3,12 @@ from django.urls import path, include
 from usuario import urls as usuario_urls
 from livro import urls as livros_urls
 from clientes import urls as cliente_urls
+from emprestimo import urls as emprestimo_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(usuario_urls)),
     path('livros/', include(livros_urls, namespace="livros")),
-    path('cliente/', include(cliente_urls, namespace="cliente")),   
+    path('cliente/', include(cliente_urls, namespace="cliente")),
+    path('emprestimo/', include(emprestimo_urls, namespace="emprestimo")),      
 ]

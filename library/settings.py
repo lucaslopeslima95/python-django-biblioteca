@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'usuario',
     'livro',
     'clientes',
+    'emprestimo',
     
 ]
 

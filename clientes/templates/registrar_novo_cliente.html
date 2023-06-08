@@ -20,7 +20,6 @@
        <form role="form" method="post" action="{% url 'clientes:registrar_novo_cliente' %}" >
           {% csrf_token %}
           <div class="mb-3">{{form_cliente.nome}}</div>
-          <div class="mb-3">{{ form_cliente.nome }}</div>
           <div class="mb-3">{{ form_cliente.email }}</div>
           <div class="mb-3">{{ form_cliente.data_nascimento }}</div>
           <div class="mb-3">{{ form_cliente.endereco }}</div>

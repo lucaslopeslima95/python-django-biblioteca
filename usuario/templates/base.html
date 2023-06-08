@@ -9,26 +9,25 @@
     </title>
     <link href="{% static 'usuario/css/black-dashboard.css' %}" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800"rel="stylesheet"/>
-    <!-- Inclua a biblioteca Flatpickr -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    
+    <script src="https://kit.fontawesome.com/9958a2dab0.js" crossorigin="anonymous"></script>
     {% block stylesheets %}{% endblock stylesheets %}
   </head>
   <meta charset="UTF-8" />
-  
   <title>Log In</title>
   <body>
-    <div class="d-flex flex-row overflow-hidden">
-      <div>
+    <style>
+      body, html {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    
+    <div class="d-flex flex-row">
         {% include 'side-bar.html' %}
-      </div>
-      <div class="wrapper">
-      <div class="container-fluid">
         {% block content %}{% endblock content %} 
-        {% include 'footer.html' %}
-      </div>
     </div>
-  </div>
+    
   
   {% block javascripts %}
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
