@@ -1,20 +1,8 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{% static 'usuario/css/black-dashboard.css' %}" rel="stylesheet" />
-    <script src="https://kit.fontawesome.com/9958a2dab0.js" crossorigin="anonymous"></script>
-    <title>Document</title>
-</head>
-
-<body>
-    <div class="d-flex flex-row m-0 overflow-hidden">
-        {% include 'side-bar.html' %}
-        <div class="content">
+{% extends 'base.html' %}
+{% block title %} Login {% endblock %} 
+{% block stylesheets %}{% endblock stylesheets %}
+{% block content %}
+<div class="content">
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
@@ -63,10 +51,8 @@
                                         {% endfor %}
                                     </tbody>
                                 </table>
-
                             </div>
                         </div>
                     </div>
-</body>
-
-</html>
+{% endblock content %}
+{% block javascripts %}{% endblock javascripts %}

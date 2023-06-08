@@ -22,16 +22,17 @@ def registrar_novo_cliente(request):
             try:
                 obj_cliente = form_cliente.save(commit=False)
                 if Cliente.objects.filter(email=obj_cliente.email).exists():
-                    aviso_ao_usuario = "Email já ou Cliente já cadatrado"
-                    return listar_clientes(request,aviso_ao_usuario)   
+                    aviso_ao_usuario = "Email já ou Cliente já cadastrado"
+                    return listar_clientes(request, aviso_ao_usuario=aviso_ao_usuario)
                 else:
                     obj_cliente.save()
                     aviso_ao_usuario = "Cliente Salvo Com Sucesso"
-                    return listar_clientes(request,aviso_ao_usuario)
+                    return redirect('clientes:listar_clientes')
             except Exception as e:
                 print(e)
     else:
-        return listar_clientes(request)
+        form_cliente = forms.ClienteForm() 
+    return render(request, 'registrar_novo_cliente.html', {'form_cliente': form_cliente})
 
    
 def deletar_cliente(request, id):

@@ -1,20 +1,8 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% block title %} Login {% endblock %} 
+{% block stylesheets %}{% endblock stylesheets %}
+{% block content %}
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="{% static 'usuario/css/black-dashboard.css' %}" rel="stylesheet" />
-  <title>Document</title>
-</head>
-
-<body>
-  <div class="d-flex flex-row ">
-    <div>
-      {% include 'side-bar.html' %}
-    </div>
     <div class="content">
       <div class="container">
         <div class="row pt-5">
@@ -100,6 +88,5 @@
       </div>
     </div>
   </div>
-</body>
-
-</html>
+  {% endblock content %}
+  {% block javascripts %}{% endblock javascripts %}
