@@ -1,75 +1,67 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="{% static 'usuario/css/black-dashboard.css' %}"
-      rel="stylesheet"
-    />
-    <title>Log In</title>
-  </head>
-  <body>
-    <div class="content">
-      <div class="container">
-        <div class="row pt-5">
-          <div class="col-md-6 mt-5 offset-md-3 pt-5 mt-5">
-            <div class="card">
-              <div class="card-header text-center py-4">
-                <h4 class="title">Entrar</h4>
+{% extends 'base.html' %}
+{% block title %} Login {% endblock %} 
+{% block stylesheets %}{% endblock stylesheets %}
+{% block content %}
+<div class="content">
+ 
+  <div class="container">
+    <div class="row pt-5">
+      <div class="col-md-6 mt-5 offset-md-3 pt-5 mt-5">
+        <div class="card">
+          <div class="card-header text-center py-4">
+            <h4 class="title">Entrar</h4>
 
-                <h6 class="card-category">
-                  {% if msg %}
-                  <span class="text-danger">{{ msg | safe }}</span>
-                  {% else %}
-                  <span> Informe suas credenciais </span>
-                  {% endif %}
-                </h6>
-              </div>
+            <h6 class="card-category">
+              {% if msg %}
+              <span class="text-danger">{{ msg | safe }}</span>
+              {% else %}
+              <span> Informe suas credenciais </span>
+              {% endif %}
+            </h6>
+          </div>
 
-              <form role="form" method="post" action="">
-                {% csrf_token %}
+          <form role="form" method="post" action="">
+            {% csrf_token %}
 
-                <div class="card-body px-5 py-3">
-                  <div class="row">
-                    <div class="col-md-12 px-md-1">
-                      <div class="form-group">
-                        <label>Username</label>
-                        {{ form.username }}
-                      </div>
-                    </div>
-
-                    <div class="col-md-12 px-md-1">
-                      <div class="form-group">
-                        <label>Senha</label>
-                        {{ form.password }}
-                      </div>
-                    </div>
+            <div class="card-body px-5 py-3">
+              <div class="row">
+                <div class="col-md-12 px-md-1">
+                  <div class="form-group">
+                    <label>Username</label>
+                    {{ form.username }}
                   </div>
                 </div>
-                <div class="card-footer text-center">
-                  <button
-                    type="submit"
-                    name="login"
-                    class="btn btn-fill btn-primary"
-                    href="{% url 'login' %}">
-                    Entrar
-                  </button>
-                  <br /><br />
-                  <p>
-                    Não tem conta?
-                    <a href="{% url 'register' %}" class="text-primary"
-                      >Registre-se</a
-                    >
-                  </p>
+
+                <div class="col-md-12 px-md-1">
+                  <div class="form-group">
+                    <label>Senha</label>
+                    {{ form.password }}
+                  </div>
                 </div>
-              </form>
+              </div>
             </div>
-          </div>
+            <div class="card-footer text-center">
+              <button
+                type="submit"
+                name="login"
+                class="btn btn-fill btn-primary"
+                href="{% url 'login' %}"
+              >
+                Entrar
+              </button>
+              <br /><br />
+              <p>
+                Não tem conta?
+                <a href="{% url 'register' %}" class="text-primary"
+                  >Registre-se</a
+                >
+              </p>
+            </div>
+          </form>
         </div>
       </div>
     </div>
-  </body>
-</html>
+  </div>
+</div>
+{% endblock content %}
+{% block javascripts %}{% endblock javascripts %}

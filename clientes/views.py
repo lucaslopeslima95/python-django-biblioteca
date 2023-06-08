@@ -34,7 +34,7 @@ def registrar_novo_cliente(request):
         return listar_clientes(request)
 
    
-def delete_cliente(request, id):
+def deletar_cliente(request, id):
     if request.method == "GET":
         try:
             obj_cliente = Cliente.objects.get(id=id)
@@ -59,7 +59,7 @@ def atualizar_cliente(request):#Terminar o update
         return listar_clientes(request)
     
     
-def pesquisar_livro(request):
+def pesquisar_cliente(request):
     if request.method == "POST":
         form_busca_cliente_nome = forms.BuscaClienteNomeForm(request.POST)
         if form_busca_cliente_nome.is_valid():

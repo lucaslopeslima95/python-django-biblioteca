@@ -6,6 +6,7 @@ class Cliente(models.Model):
     data_nascimento = models.DateField()
     endereco = models.CharField(max_length=200)
     telefone = models.CharField(max_length=30,default=9999-9999)
+    pode_fazer_emprestimo = models.BooleanField(default=False)
 
     def __str__(self):
         return self.nome
