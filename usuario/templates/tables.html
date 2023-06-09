@@ -24,10 +24,8 @@
                     <tr>
                       <th>{{ user.username }}</th>
                       <th>{{ user.email }}</th>
-                      <th><a type="submit" class="btn btn-fill btn-primary" href="delete/{{ user.id }}">Delete</th>
-                        <th><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" 
-                          onclick="carregarDados({'username':'{{ user.username }}','email':'{{ user.email }}','id':'{{ user.id }}'})">Atualizar</button>
-                        </th>
+                      <th><a type="submit" class="btn btn-primary" href="{% url 'deletar_usuario' user.id %}">Delete</a></th>
+                      <th><a type="submit" class="btn btn-primary" href="{% url 'atualizar_usuario' user.id %}">Atualizar</a></th>
                       </tr>
                       {% endfor %}
                     </tbody>
@@ -39,51 +37,7 @@
       </div>
     </div>
   </div>
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Atualizar</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <form action="{% url 'update' %}" method="POST" >
-          <div class="modal-body">
-            {% csrf_token %}
-            <div>
-              <label>Username</label>
-              {{ form.username }}
-            </div>
-            <div>
-              <label>Password</label>
-              {{ form.password }}
-            </div>
-            <div>
-              <label>Email</label>
-              {{ form.email }}
-            </div>
-            {{ form.id }}
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary" >Salvar</button>
-          </div>
-        </form>
-          </div>
-        </div>
-      </div>
-      <script>
-        function carregarDados(user) { 
-          document.getElementById("input_old_id").value = user.id;
-          document.getElementById("input_username").value = user.username;
-          document.getElementById("input_email").value =  user.email;
-        }
-        </script>
-    <style>
-      #input_old_id,
-      #input_username,
-      #input_email{
-        color: black;
-      }
-      </style>
+  
 {% endblock content %}
 {% block javascripts %}{% endblock javascripts %}
   

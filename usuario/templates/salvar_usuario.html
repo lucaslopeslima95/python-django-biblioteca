@@ -2,7 +2,6 @@
 {% block title %} Login {% endblock %} 
 {% block stylesheets %}{% endblock stylesheets %}
 {% block content %}
-
     <div class="content">
       <div class="container">
         <div class="row pt-5">
@@ -31,42 +30,9 @@
               {% else %}
               <form role="form" method="post" action="">
                 {% csrf_token %}
-
-                <div class="card-body px-5 py-3">
-                  <div class="row">
-                    <div class="col-md-12 px-md-1">
-                      <div class="form-group">
-                        <label>Username</label>
-                        {{ form.username }}
-                      </div>
-                      <span class="text-danger">{{ form.username.errors }}</span>
-                    </div>
-
-                    <div class="col-md-12 px-md-1">
-                      <div class="form-group">
-                        <label>Email</label>
-                        {{ form.email }}
-                      </div>
-                      <span class="text-danger">{{ form.email.errors }}</span>
-                    </div>
-
-                    <div class="col-md-12 px-md-1">
-                      <div class="form-group">
-                        <label>Password</label>
-                        {{ form.password1 }}
-                      </div>
-                      <span class="text-danger">{{ form.password1.errors }}</span>
-                    </div>
-
-                    <div class="col-md-12 px-md-1">
-                      <div class="form-group">
-                        <label>Password Check</label>
-                        {{ form.password2 }}
-                      </div>
-                      <span class="text-danger">{{ form.password2.errors }}</span>
-                    </div>
-                  </div>
-                </div>
+                {{ form.as_p }}
+                <br>
+                <input type="submit" value="Atualizar" class="btn bnt-secondary">
                 <div class="card-footer text-center">
                   {% if user.is_authenticated %}
                   <button type="submit" name="register" class="btn btn-fill btn-primary"

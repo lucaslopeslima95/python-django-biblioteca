@@ -3,9 +3,9 @@ from .views import *
 
 urlpatterns = [
     path('', login_system,name='login'),
-    path('register',register_user,name='register'),
+    path('salvar_usuario',salvar_usuario,name='salvar_usuario'),
     path('home',to_home_page,name='home'),
     path('logout', logout_system, name='logout'),
-    path('delete/<int:id>', delete, name='delete'),
-    path('update',update_user, name='update'),
+    path('deletar_usuario/<int:id>', deletar_usuario, name='deletar_usuario'),
+    path('atualizar_usuario/<int:id>',atualizar_usuario, name='atualizar_usuario'),
 ]

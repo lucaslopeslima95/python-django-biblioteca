@@ -1,21 +1,23 @@
 from django.shortcuts import render, redirect
 from .models import Cliente
 from . import forms
+from django.contrib import messages
+
 
 def listar_clientes(request,aviso_ao_usuario="",nome_cliente="listar_todos"):
-    
+    messages.error(request,aviso_ao_usuario)
+    clientes=None
     try:
         if nome_cliente == "listar_todos":
             clientes = Cliente.objects.all()
         else:
-            clientes=""
             clientes = Cliente.objects.filter(nome__startswith=nome_cliente)
     except Exception as e:
         print(e)
 
     nome_cliente_para_filtrar = forms.BuscaClienteNomeForm()
 
-    return render(request,"listar_clientes.html",{'clientes':clientes ,'aviso_ao_usuario':aviso_ao_usuario,'nome_cliente_para_filtrar':nome_cliente_para_filtrar})
+    return render(request,"listar_clientes.html",{'clientes':clientes ,'messages':messages,'nome_cliente_para_filtrar':nome_cliente_para_filtrar})
 
 def registrar_novo_cliente(request):
     if request.method == "POST":
@@ -51,19 +53,18 @@ def deletar_cliente(request, id):
         return listar_clientes(request,aviso_ao_usuario=aviso_ao_usuario)
 
     
-def atualizar_cliente(request):#Terminar o update
+def atualizar_cliente(request,id):
+    cliente = None
+    cliente = Cliente.objects.get(id=id)
+    form = forms.ClienteForm(request.POST or None, instance=cliente)
     if request.method == "POST":
-        nome_cliente = request.POST.get('nome_cliente')
-        livro_novo = Cliente.objects.filter(nome_cliente=nome_cliente).count()#substituir por get
-        if livro_novo>0:
-            
-         return listar_clientes(request)
+        if form.is_valid():
+            form.save() 
+            return redirect('clientes:listar_clientes')
     else:
-        return listar_clientes(request)
+         return render(request,'atualizar_cliente.html',{'form':form})  
+        
     
-    
-from django.shortcuts import render
-
 def pesquisar_cliente(request):
     nome_cliente = None
     if request.method == "POST":

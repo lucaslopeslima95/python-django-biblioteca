@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %} Login {% endblock %} 
+{% block stylesheets %}{% endblock stylesheets %}
+{% block content %}
+<h1>Atulizar Cliente</h1>
+</br>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <br>
+    <input type="submit" value="Atualizar" class="btn bnt-secondary">
+</form>
+{% endblock content %} {% block javascripts %}{% endblock javascripts %}

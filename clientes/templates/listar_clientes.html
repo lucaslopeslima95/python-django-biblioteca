@@ -41,6 +41,7 @@
           {% endif %}
         </tr>
         <th><a class="btn btn-primary" href="deletar_cliente/{{ cliente.id }}">Delete</th>
+        <th><a class="btn btn-primary" href="{% url 'clientes:atualizar_cliente' cliente.id %}">Atualizar</th>
         {% endfor %}
       </tbody>
     </table>

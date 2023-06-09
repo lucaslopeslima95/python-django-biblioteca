@@ -7,8 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 
 def is_logged(request):
-    updateForm = update_User_Form()
-    return render(request,'tables.html',{'users':User.objects.all(),'form':updateForm})
+    return render(request,'tables.html',{'users':User.objects.all()})
 
 def login_system(request):
     if request.user.is_authenticated:
@@ -31,7 +30,7 @@ def login_system(request):
 
 
 
-def register_user(request):
+def salvar_usuario(request):
     if request.method == "POST":
         form = registerForm(request.POST)
         try:
@@ -53,7 +52,7 @@ def register_user(request):
             form.add_error(None, msg)
     else:
         form = registerForm()
-        return render(request, 'register.html', {'form': form})
+        return render(request, 'salvar_usuario.html', {'form': form})
 
     
 @login_required(login_url="login")
@@ -67,29 +66,24 @@ def logout_system(request):
     return redirect('login')
 
 @login_required
-def delete(request, id):
+def deletar_usuario(request, id):
     try:
         user = User.objects.get(id=id)
         user.delete()
     except Exception as e:
         print(e)
-        
-    users = User.objects.all()
-    
-    return render(request, 'tables.html', {'users': users})
+    return redirect('home')
 
 
 @login_required
-def update_user(request):
+def atualizar_usuario(request,id):
+    obj_user = None
+    obj_user = User.objects.get(id=id)
+    form = updateForm(request.POST or None, instance=obj_user)
     if request.method == "POST":
-        username = request.POST.get('username')
-        if User.objects.filter(username=username).exists():
-            user = User.objects.get('username')
-            user.email = request.POST.get('email')
-            user.set_password(request.POST.get('password'))
-            user.save()
-            users = User.objects.all()
-            return render(request, 'tables.html', {'users': users})
-    else:
-        users = User.objects.all()
-        return render(request, 'tables.html', {'users': users})
+        if form.is_valid():
+            form.save() 
+            return redirect('home')
+    return render(request,'atualizar_usuario.html',{'form':form})
+    
+    
