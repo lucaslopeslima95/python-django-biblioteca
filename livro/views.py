@@ -1,70 +1,75 @@
-from django.shortcuts import render
-from .models import livro
+from django.shortcuts import render,redirect
+from .models import livro as Livro
 from . import forms
+from django.contrib.auth.decorators import login_required
 
-def show_collection(request,msg="",titulo_livro="sem_pesquisa"):
+@login_required
+def listar_livros(request,msg="",titulo_livro="sem_pesquisa"):
     if titulo_livro == "sem_pesquisa":
-        livros = livro.objects.all()
+        livros = Livro.objects.all()
     else:
-        livros = livro.objects.filter(titulo__startswith=titulo_livro)
-    conteudo_pesquisa_form = forms.searchBookForm()
-    return render(request,"show_collection.html",{'livros':livros ,'msg':msg,'conteudo_pesquisa_form':conteudo_pesquisa_form})
+        livros = Livro.objects.filter(titulo__startswith=titulo_livro)
+    conteudo_pesquisa_form = forms.BuscarLivroForm()
+    return render(request,"listar_livros.html",{'livros':livros ,'msg':msg,'conteudo_pesquisa_form':conteudo_pesquisa_form})
 
-def register_book(request):
+@login_required
+def registrar_livro(request):
     if request.method == "POST":
-        form = forms.registerBookForm(request.POST)
+        form = forms.LivroForm(request.POST)
         if form.is_valid():
             titulo = form.cleaned_data.get("titulo")
-            authors = form.cleaned_data.get("authors")
+            autor = form.cleaned_data.get("autor")
             descricao = form.cleaned_data.get("descricao")
             isbn = form.cleaned_data.get("isbn")
             esta_disponivel = True
-            livro_obj = ""
+            livro_obj = None
             try:
-                livro_obj = livro.objects.get(titulo=titulo)    
+                livro_obj = Livro.objects.get(titulo=titulo)    
             except Exception as e:
                 print(e)
                 
             if livro_obj:
                 msg = "Livro já existe"
-                return show_collection(request, {"msg": msg})
+                return listar_livros(request, {"msg": msg})
             else:
-                livro_obj = livro.objects.create(titulo=titulo, authors=authors, descricao=descricao, isbn=isbn, esta_disponivel=esta_disponivel)
+                livro_obj = Livro.objects.create(titulo=titulo, autor=autor, descricao=descricao, isbn=isbn, esta_disponivel=esta_disponivel)
                 msg = "Salvo com sucesso"
-            return show_collection(request, {"msg": msg})
+            return listar_livros(request, {"msg": msg})
     else:
-        form = forms.registerBookForm()
-        return render(request,'register_book.html',{'form':form})
+        form = forms.LivroForm()
+        return render(request,'listar_livros.html',{'form':form})
     
-def delete(request, id):
+@login_required   
+def apagar_livro(request, id):
     if request.method == "GET":
         try:
-            livro_obj = livro.objects.get(id=id)
+            livro_obj = Livro.objects.get(id=id)
             livro_obj.delete()
         except Exception as e:
             print(e)
-        return show_collection(request)
+        return listar_livros(request)
     else:
-        return show_collection(request)
+        return listar_livros(request)
 
     
-def update_book(request):#Terminar o update
-    cont = 0
+@login_required
+def atualizar_livro(request,id):
+    obj_livro = None
+    obj_livro = Livro.objects.get(id=id)
+    form = forms.LivroForm(request.POST or None, instance=obj_livro)
     if request.method == "POST":
-        titulo = request.POST.get('titulo')
-        livro_novo = livro.objects.filter(titulo=titulo).count()#substituir por get
-        if livro_novo>0:
-            
-         return show_collection(request)
-    else:
-        return show_collection(request)
+        if form.is_valid():
+            form.save() 
+            return redirect('livros:listar_livros')
+    return render(request,'atualizar_usuario.html',{'form':form})
     
     
+@login_required
 def pesquisar_livro(request):
     if request.method == "POST":
-        form = forms.searchBookForm(request.POST)
+        form = forms.BuscarLivroForm(request.POST)
         if form.is_valid():
             titulo = form.cleaned_data.get("titulo")
             
-    return show_collection(request,titulo_livro=titulo)
+    return listar_livros(request,titulo_livro=titulo)
     

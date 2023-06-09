@@ -1,11 +1,16 @@
 from django import forms
+from django.forms import ModelForm
+from .models import livro as Livro
 
-class registerBookForm(forms.Form):
+class LivroForm(ModelForm):
     titulo = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Titulo","class": "form-control"}))
-    authors = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Autor","class": "form-control"}))
+    autor = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Autor","class": "form-control"}))
     descricao = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Descrição","class": "form-control"}))
     isbn = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "ISBN","class": "form-control"}))
     esta_disponivel = forms.BooleanField(required=False)
+    class Meta:
+        model = Livro
+        fields = ['titulo','autor','descricao','isbn','esta_disponivel']
     
-class searchBookForm(forms.Form):
+class BuscarLivroForm(forms.Form):
     titulo = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Buscar Por Titulo","class": "form-control"}))

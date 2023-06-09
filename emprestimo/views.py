@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import RegistroEmprestimoForm
 from .models import emprestimo as Emprestimo
 from django.http import HttpResponse
-from livro.forms import searchBookForm
+from livro.forms import BuscarLivroForm
 
 def listar_emprestimos(request,titulo_livro="titulo_pesquisa"):
     if titulo_livro=="titulo_pesquisa":
@@ -10,7 +10,7 @@ def listar_emprestimos(request,titulo_livro="titulo_pesquisa"):
     else:
         emprestimos = Emprestimo.objects.filter(livro__titulo=titulo_livro)
 
-    return render(request,'listar_emprestimos.html',{'emprestimos':emprestimos, 'conteudo_pesquisa_form':searchBookForm})
+    return render(request,'listar_emprestimos.html',{'emprestimos':emprestimos, 'conteudo_pesquisa_form':BuscarLivroForm})
 
 def registrar_novo_emprestimo(request):
     if request.method == 'POST':
@@ -33,7 +33,7 @@ def registrar_novo_emprestimo(request):
 def pesquisar_emprestimo(request):
     titulo = None 
     if request.method == "POST":
-        form = searchBookForm(request.POST)
+        form = BuscarLivroForm(request.POST)
         if form.is_valid():
             titulo = form.cleaned_data.get("titulo")
             

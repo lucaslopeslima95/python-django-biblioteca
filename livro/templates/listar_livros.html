@@ -25,26 +25,17 @@
                                             <th scope="col">Autor</th>
                                             <th scope="col">Descrição</th>
                                             <th scope="col">ISBN</th>
-                                            <th scope="col">Disponibilidade</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {% for livro in livros %}
                                         <tr>
                                             <td>{{ livro.titulo }}</td>
-                                            <td>{{ livro.authors }}</td>
+                                            <td>{{ livro.autor }}</td>
                                             <td>{{ livro.descricao }}</td>
                                             <td>{{ livro.isbn }}</td>
-                                            {% if livro.esta_disponivel %}
-                                            <td>Disponivel</td>
-                                            <td><a class="btn btn-fill btn-primary">Reservar</a></td>
-                                            <th><a type="submit" class="btn btn-fill btn-primary"
-                                                    href="delete/{{ livro.id }}">Delete</th>
-                                            {% else %}
-                                            <td>Indisponivel</td>
-                                            <td><a type="hidden" disabled class="btn btn-fill btn-primary">Reservar</a></td>
-                                            <th><a type="hidden" disabled class="btn btn-fill btn-primary" href="delete/{{ livro.id }}">Delete</th>
-                                            {% endif %}
+                                            <td><a type="submit" class="btn btn-fill btn-primary" href="{% url 'livros:atualizar_livro' livro.id%}">Atualizar</a></td>
+                                            <th><a type="submit" class="btn btn-fill btn-primary" href="{% url 'livros:apagar_livro' livro.id %}">Delete</th>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
