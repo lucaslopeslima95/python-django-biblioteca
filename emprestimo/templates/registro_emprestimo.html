@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %} Login {% endblock %} 
+{% block stylesheets %}{% endblock stylesheets %}
+{% block content %}
+<div class="col-md-12 w-100">
+    <div class="card w-75">
+      <div class="card-header">
+        <h4 class="card-title">Emprestimo</h4>
+      </div>
+    <form class="d-flex flex-column card-body w-100 justify-content-center align-items-center" action="{% url 'emprestimo:registrar_novo_emprestimo'%}" method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label> Cliente {{ form.cliente }} </label>
+      </div>
+      <div class="mb-3">
+        <label> Livro {{ form.livro }} </label>
+      </div>
+      <div class="mb-3">
+        <label> Data Emprestimo {{ form.data_emprestimo }} </label>
+      </div>
+      <div class="mb-3">
+        <label> Data Prevista Devolução {{ form.data_devolucao }} </label>
+      </div>
+      <div class="mb-3">
+        <label> Situação {{ form.situacao }} </label>
+      </div>
+      <button type="submit">Salvar</button>
+    </form>
+    </div>
+</div>
+{% endblock content %}
+{% block javascripts %}{% endblock javascripts %}

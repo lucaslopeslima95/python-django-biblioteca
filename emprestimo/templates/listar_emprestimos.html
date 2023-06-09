@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %} Login {% endblock %} 
+{% block stylesheets %}{% endblock stylesheets %}
+{% block content %}
+<div class="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Emprestimos</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <form method="POST" action="{% url 'emprestimo:pesquisar_emprestimo' %}" class="w-25 d-flex flex-row">
+                                    {% csrf_token %}
+                                    {{ conteudo_pesquisa_form }}
+                                    <button type="submit" class="btn btn-fill btn-primary">
+                                        <i class="fa-sharp fa-solid fa-magnifying-glass"></i>
+                                    </button>
+                                </form>
+                                <table class="table table-striped-columns">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Cliente</th>
+                                            <th scope="col">Livro</th>
+                                            <th scope="col">Data Emprestimo</th>
+                                            <th scope="col">Devolução Prevista</th>
+                                            <th scope="col">Situação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for emprestimo in emprestimos %}
+                                        <tr>
+                                            <td>{{ emprestimo.cliente }} </td>
+                                            <td>{{ emprestimo.livro }}</td>
+                                            <td>{{ emprestimo.data_emprestimo }} </td>
+                                            <td>{{ emprestimo.data_devolucao }} </td>
+                                            {% if emprestimo.situacao %}
+                                            <td>Em Dia</td>
+                                            {% else %}
+                                            <td>Atrasado</td>
+                                            {% endif %}
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+{% endblock content %}
+{% block javascripts %}{% endblock javascripts %}

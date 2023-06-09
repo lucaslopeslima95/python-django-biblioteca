@@ -8,7 +8,7 @@
     <h4 class="card-title">Clientes</h4>
   </div>
   <div class="mb-auto">
-    <form method="POST" type="submit" action="{% url 'clientes:pesquisar_cliente' %}" class="w-25 d-flex flex-row">
+    <form method="POST" action="{% url 'clientes:pesquisar_cliente' %}" class="w-25 d-flex flex-row">
       {% csrf_token %} 
       {{ nome_cliente_para_filtrar }}
       <button type="submit" class="btn btn-fill btn-primary">

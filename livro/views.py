@@ -61,11 +61,10 @@ def update_book(request):#Terminar o update
     
     
 def pesquisar_livro(request):
-    
     if request.method == "POST":
         form = forms.searchBookForm(request.POST)
         if form.is_valid():
             titulo = form.cleaned_data.get("titulo")
             
-        show_collection(request,titulo_livro=titulo)
+    return show_collection(request,titulo_livro=titulo)
     

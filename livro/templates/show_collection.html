@@ -11,12 +11,12 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <form method="POST" action="/pesquisar_livro" class="w-25 d-flex flex-row">
+                                <form method="POST" action="{% url 'livros:pesquisar_livro' %}" class="w-25 d-flex flex-row">
                                     {% csrf_token %}
                                     {{ conteudo_pesquisa_form }}
-                                    <a type="submit" class="btn btn-fill btn-primary">
+                                    <button type="submit" class="btn btn-fill btn-primary">
                                         <i class="fa-sharp fa-solid fa-magnifying-glass"></i>
-                                    </a>
+                                    </button>
                                 </form>
                                 <table class="table table-striped-columns">
                                     <thead>
