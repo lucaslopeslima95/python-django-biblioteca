@@ -1,4 +1,4 @@
 from django.contrib import admin
-from .models import emprestimo
+from .models import Emprestimo
 
-admin.site.register(emprestimo)
+admin.site.register(Emprestimo)

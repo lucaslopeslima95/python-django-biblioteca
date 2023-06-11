@@ -3,55 +3,20 @@
 {% block stylesheets %}{% endblock stylesheets %}
 {% block content %}
 
-<div class="content">
-      <div class="container">
-        <div class="row pt-5">
-          <div class="col-md-6 mt-5 offset-md-3 pt-5 mt-5">
-            <div class="card">
-
-              <form role="form" method="post" action="">
-                {% csrf_token %}
-
-                <div class="card-body px-5 py-3">
-                  <div class="row">
-                    <div class="col-md-12 px-md-1">
-                      <div class="form-group">
-                        <label>Titulo</label>
-                        {{ form.titulo }}
-                      </div>
-                      <span class="text-danger">{{ form.titulo.errors }}</span>
-                    </div>
-
-                    <div class="col-md-12 px-md-1">
-                      <div class="form-group">
-                        <label>Autor</label>
-                        {{ form.authors }}
-                      </div>
-                      <span class="text-danger">{{ form.authors.errors }}</span>
-                    </div>
-                    <div class="col-md-12 px-md-1">
-                      <div class="form-group">
-                        <label>Descrição</label>
-                        {{ form.descricao }}
-                      </div>
-                      <span class="text-danger">{{ form.descricao.errors }}</span>
-                    </div>
-                    <div class="col-md-12 px-md-1">
-                      <div class="form-group">
-                        <label>ISBN</label>
-                        {{ form.isbn }}
-                      </div>
-                      <span class="text-danger">{{ form.isbn.errors }}</span>
-                    </div>
-                  </div>
-                  <button type="submit" name="register" class="btn btn-fill btn-primary">Salvar</button>
-                </div>
-              </form>
-            </div>
-          </div>
+<div class="content vw-100 d-flex flex-column align-items-center">
+    <div class="container">
+      <div class="row pt-5">
+        <div class="col-md-6 mt-5 offset-md-3 pt-5 mt-5">
+         <div class="card p-5">
+          <form role="form" class="vw-75" method="post" action="{% url 'livros:registrar_livro' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Salvar</button>
+          </form>
         </div>
       </div>
     </div>
   </div>
+</div>
   {% endblock content %}
   {% block javascripts %}{% endblock javascripts %}

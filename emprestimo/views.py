@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import RegistroEmprestimoForm
-from .models import emprestimo as Emprestimo
+from .models import Emprestimo
 from django.http import HttpResponse
 from livro.forms import BuscarLivroForm
 
@@ -16,15 +16,11 @@ def registrar_novo_emprestimo(request):
     if request.method == 'POST':
         form = RegistroEmprestimoForm(request.POST)
         if form.is_valid():
-            cliente = form.cleaned_data['cliente']
-            livro = form.cleaned_data['livro']
-            data_emprestimo = form.cleaned_data['data_emprestimo']
-            data_devolucao = form.cleaned_data['data_devolucao']
-            
-            emprestimo_obj = Emprestimo.objects.create(cliente=cliente, livro=livro, data_emprestimo=data_emprestimo, data_devolucao=data_devolucao)
-            emprestimo_obj.save()
-            return render(request, 'registro_emprestimo.html', {'form': form})
-
+            try:
+                form.save()
+            except Exception as e:
+                print(e)
+            return redirect('emprestimo:listar_emprestimos')
     else:
         form = RegistroEmprestimoForm()
 
@@ -35,9 +31,27 @@ def pesquisar_emprestimo(request):
     if request.method == "POST":
         form = BuscarLivroForm(request.POST)
         if form.is_valid():
-            titulo = form.cleaned_data.get("titulo")
+            try:
+             titulo = form.cleaned_data.get("titulo")
+            except Exception as e:
+                print(e)
             
     return listar_emprestimos(request,titulo)
 
-def deletar_emprestimo(request):
-    return HttpResponse("deletar emprestimos")
+def deletar_emprestimo(request,id):
+    try:
+        Emprestimo.objects.get(id=id).delete()
+    except Exception as e:
+        print(e)
+
+    return redirect('emprestimo:listar_emprestimos')
+
+
+def encerrar_emprestimo(request,id):
+    try:
+        emprestimo_encerrado = Emprestimo.objects.get(id=id)
+        emprestimo_encerrado.status_emprestimo = 3
+        emprestimo_encerrado.save()
+    except Exception as e:
+        print(e)
+    return redirect('emprestimo:listar_emprestimos')

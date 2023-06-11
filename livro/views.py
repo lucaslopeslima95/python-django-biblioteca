@@ -37,7 +37,7 @@ def registrar_livro(request):
             return listar_livros(request, {"msg": msg})
     else:
         form = forms.LivroForm()
-        return render(request,'listar_livros.html',{'form':form})
+        return render(request,'registrar_livro.html',{'form':form})
     
 @login_required   
 def apagar_livro(request, id):
@@ -61,7 +61,7 @@ def atualizar_livro(request,id):
         if form.is_valid():
             form.save() 
             return redirect('livros:listar_livros')
-    return render(request,'atualizar_usuario.html',{'form':form})
+    return render(request,'atualizar_livro.html',{'form':form})
     
     
 @login_required

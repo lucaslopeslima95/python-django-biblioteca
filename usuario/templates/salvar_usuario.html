@@ -21,14 +21,12 @@
                   {% endif %}
                 </h6>
               </div>
-
               {% if success %}
-
               <div class="card-footer text-center">
                 <a href="{% url 'login' %}" class="btn btn-fill btn-primary">Login</a>
               </div>
               {% else %}
-              <form role="form" method="post" action="">
+              <form role="form" method="post" action="" class="p-3">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <br>

@@ -2,14 +2,17 @@
 {% block title %} Login {% endblock %} 
 {% block stylesheets %}{% endblock stylesheets %}
 {% block content %}
-<div class="d-flex flex-column">
-<h1 class="mb-3">Atulizar Livro</h1>
-</br>
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <br>
-    <input type="submit" value="Atualizar" class="btn bnt-secondary">
+<div class="content vw-100 d-flex flex-column align-items-center">
+  <div class="container">
+    <div class="row pt-5">
+      <div class="col-md-6 mt-5 offset-md-3 pt-5 mt-5">
+        <div class="card p-5">
+           <h4>Atualizar Livro</h4>
+        <form action="" method="post">
+         {% csrf_token %}
+        {{ form.as_p }}
+        <br>
+        <input type="submit" value="Atualizar" class="btn btn-primary">
 </form>
 </div>
 {% endblock content %} {% block javascripts %}{% endblock javascripts %}

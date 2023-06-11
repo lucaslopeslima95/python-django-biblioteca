@@ -1,51 +1,55 @@
-{% extends 'base.html' %}
-{% block title %} Login {% endblock %} 
+{% extends 'base.html' %} 
+{% block title %} Login {% endblock %}
 {% block stylesheets %}{% endblock stylesheets %}
 {% block content %}
-<div class="content">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Emprestimos</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <form method="POST" action="{% url 'emprestimo:pesquisar_emprestimo' %}" class="w-25 d-flex flex-row">
-                                    {% csrf_token %}
-                                    {{ conteudo_pesquisa_form }}
-                                    <button type="submit" class="btn btn-fill btn-primary">
-                                        <i class="fa-sharp fa-solid fa-magnifying-glass"></i>
-                                    </button>
-                                </form>
-                                <table class="table table-striped-columns">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Cliente</th>
-                                            <th scope="col">Livro</th>
-                                            <th scope="col">Data Emprestimo</th>
-                                            <th scope="col">Devolução Prevista</th>
-                                            <th scope="col">Situação</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for emprestimo in emprestimos %}
-                                        <tr>
-                                            <td>{{ emprestimo.cliente }} </td>
-                                            <td>{{ emprestimo.livro }}</td>
-                                            <td>{{ emprestimo.data_emprestimo }} </td>
-                                            <td>{{ emprestimo.data_devolucao }} </td>
-                                            {% if emprestimo.situacao %}
-                                            <td>Em Dia</td>
-                                            {% else %}
-                                            <td>Atrasado</td>
-                                            {% endif %}
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-{% endblock content %}
-{% block javascripts %}{% endblock javascripts %}
+<style>
+  .largura_tabela {
+    width: 80%;
+  }
+  .largura_card{
+    width: 80%;
+  }
+</style>
+<div class="card largura_card">
+  <div class="card-header">
+    <h4 class="card-title">Emprestimos</h4>
+  </div>
+  <div class="card-body">
+    <form method="POST" action="{% url 'emprestimo:pesquisar_emprestimo' %}" class="w-25 d-flex flex-row">
+      {% csrf_token %} {{ conteudo_pesquisa_form }}
+      <button type="submit" class="btn btn-fill btn-primary btn-sm">
+        <i class="fa-sharp fa-solid fa-magnifying-glass"></i>
+      </button>
+    </form>
+    <td class="px-1"><a class="btn btn-primary btn-sm" href="">Filtrar por Encerrados</a></td>
+    <td class="px-1"><a class="btn btn-primary btn-sm" href="">Filtrar por Atrasados</a></td>
+    <td class="px-1"><a class="btn btn-primary btn-sm" href="">Ver Todos</a></td>
+    <table class="table table-striped-columns p-1 largura_tabela">
+      <thead>
+        <tr>
+          <th scope="col">Cliente</th>
+          <th scope="col">Livro</th>
+          <th scope="col">Data Emprestimo</th>
+          <th scope="col">Devolução Prevista</th>
+          <th scope="col">Status Emprestimo</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for emprestimo in emprestimos %}
+           {% if emprestimo.status_emprestimo == 1 %}
+            <tr>
+                <td class="px-1">{{ emprestimo.cliente }}</td>
+                <td class="px-1">{{ emprestimo.livro }}</td>
+                <td class="px-1">{{ emprestimo.data_emprestimo }}</td>
+                <td class="px-1">{{ emprestimo.data_devolucao }}</td>
+                <td class="px-1">{{ emprestimo.get_status_emprestimo_display }}</td>
+                <td class="px-1"><a class="btn btn-primary btn-sm" href="{% url 'emprestimo:encerrar_emprestimo' emprestimo.id %}">Encerrar Emprestimo</a></td>
+                <td class="px-1"><a class="btn btn-primary btn-sm" href="{% url 'emprestimo:deletar_emprestimo' emprestimo.id %}">Apagar Emprestimo</a></td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock content %} {% block javascripts %}{% endblock javascripts %}

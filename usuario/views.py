@@ -5,7 +5,7 @@ from django.contrib.auth import logout,login
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 
-
+@login_required(login_url="login")
 def is_logged(request):
     return render(request,'tables.html',{'users':User.objects.all()})
 
@@ -53,13 +53,6 @@ def salvar_usuario(request):
     else:
         form = registerForm()
         return render(request, 'salvar_usuario.html', {'form': form})
-
-    
-@login_required(login_url="login")
-def to_home_page(request):
-    users =  User.objects.all()
-    return render(request,'tables.html',{'users':users})
-
 
 def logout_system(request):
     logout(request)
