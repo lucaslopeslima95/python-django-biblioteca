@@ -2,7 +2,7 @@
   {% if user.is_authenticated %}
   <li><a href="{% url 'clientes:listar_clientes' %}" class="btn btn-primary list-group-item">Menu Clientes</a></li>
   <li><a href="{% url 'clientes:registrar_novo_cliente' %}" class="btn btn-primary list-group-item">Registrar Novo Cliente</a></li>
-  <li><a href="{% url 'emprestimo:listar_emprestimos' %}" class="btn btn-primary list-group-item">Menu Emprestimo</a></li>
+  <li><a href="{% url 'emprestimo:listar_emprestimos' 'emprestimos_em_dia' %}" class="btn btn-primary list-group-item">Menu Emprestimo</a></li>
   <li><a href="{% url 'emprestimo:registrar_novo_emprestimo' %}" class="btn btn-primary list-group-item">Registrar Novo Emprestimo</a></li>
   <li><a href="{% url 'login'%}" class="btn btn-primary list-group-item">Menu Usuarios</a></li>
   <li><a href="{% url 'salvar_usuario' %}" class="btn btn-primary list-group-item">Registrar Novo Usuario</a></li>

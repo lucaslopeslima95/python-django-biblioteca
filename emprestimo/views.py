@@ -4,11 +4,17 @@ from .models import Emprestimo
 from django.http import HttpResponse
 from livro.forms import BuscarLivroForm
 
-def listar_emprestimos(request,titulo_livro="titulo_pesquisa"):
-    if titulo_livro=="titulo_pesquisa":
+def listar_emprestimos(request,filtro="titulo_pesquisa"):
+    if filtro == "emprestimos_encerrados":
+        emprestimos = Emprestimo.objects.filter(status_emprestimo=3)
+    elif filtro == "emprestimos_atrasados":
+        emprestimos = Emprestimo.objects.filter(status_emprestimo=2)
+    elif filtro == "emprestimos_em_dia":
+        emprestimos = Emprestimo.objects.filter(status_emprestimo=1)
+    elif filtro == "todos_os_emprestimos":
         emprestimos = Emprestimo.objects.all()
-    else:
-        emprestimos = Emprestimo.objects.filter(livro__titulo=titulo_livro)
+    elif filtro != "titulo_pesquisa" :
+        emprestimos = Emprestimo.objects.filter(livro__titulo=filtro)
 
     return render(request,'listar_emprestimos.html',{'emprestimos':emprestimos, 'conteudo_pesquisa_form':BuscarLivroForm})
 

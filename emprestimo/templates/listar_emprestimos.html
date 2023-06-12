@@ -21,9 +21,10 @@
         <i class="fa-sharp fa-solid fa-magnifying-glass"></i>
       </button>
     </form>
-    <td class="px-1"><a class="btn btn-primary btn-sm" href="">Filtrar por Encerrados</a></td>
-    <td class="px-1"><a class="btn btn-primary btn-sm" href="">Filtrar por Atrasados</a></td>
-    <td class="px-1"><a class="btn btn-primary btn-sm" href="">Ver Todos</a></td>
+    <td class="px-1"><a class="btn btn-primary btn-sm" href="{% url 'emprestimo:listar_emprestimos' 'emprestimos_encerrados' %}">Listar Concluidos</a></td>
+    <td class="px-1"><a class="btn btn-primary btn-sm" href="{% url 'emprestimo:listar_emprestimos' 'emprestimos_atrasados' %}">Listar Atrasados</a></td>
+    <td class="px-1"><a class="btn btn-primary btn-sm" href="{% url 'emprestimo:listar_emprestimos' 'emprestimos_em_dia ' %}">Listar Em Dia</a></td>
+    <td class="px-1"><a class="btn btn-primary btn-sm" href="{% url 'emprestimo:listar_emprestimos' 'todos_os_emprestimos' %}">Ver Todos</a></td>
     <table class="table table-striped-columns p-1 largura_tabela">
       <thead>
         <tr>
@@ -36,7 +37,7 @@
       </thead>
       <tbody>
         {% for emprestimo in emprestimos %}
-           {% if emprestimo.status_emprestimo == 1 %}
+           
             <tr>
                 <td class="px-1">{{ emprestimo.cliente }}</td>
                 <td class="px-1">{{ emprestimo.livro }}</td>
@@ -46,7 +47,7 @@
                 <td class="px-1"><a class="btn btn-primary btn-sm" href="{% url 'emprestimo:encerrar_emprestimo' emprestimo.id %}">Encerrar Emprestimo</a></td>
                 <td class="px-1"><a class="btn btn-primary btn-sm" href="{% url 'emprestimo:deletar_emprestimo' emprestimo.id %}">Apagar Emprestimo</a></td>
             </tr>
-            {% endif %}
+            
         {% endfor %}
       </tbody>
     </table>
