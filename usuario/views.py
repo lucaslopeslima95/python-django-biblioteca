@@ -4,10 +4,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth import logout,login
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
+from livro import forms
 
-@login_required(login_url="login")
+
 def is_logged(request):
-    return render(request,'tables.html',{'users':User.objects.all()})
+    return render(request,'listar_livros.html',{'conteudo_pesquisa_form':forms.BuscarLivroForm})
+
 
 def login_system(request):
     if request.user.is_authenticated:
@@ -29,7 +31,7 @@ def login_system(request):
     return render(request, 'login.html', {'form': form})
 
 
-
+@login_required(login_url="login")
 def salvar_usuario(request):
     if request.method == "POST":
         form = registerForm(request.POST)
@@ -54,11 +56,12 @@ def salvar_usuario(request):
         form = registerForm()
         return render(request, 'salvar_usuario.html', {'form': form})
 
+
 def logout_system(request):
     logout(request)
     return redirect('login')
 
-@login_required
+@login_required(login_url="login")
 def deletar_usuario(request, id):
     try:
         user = User.objects.get(id=id)
@@ -68,7 +71,7 @@ def deletar_usuario(request, id):
     return redirect('home')
 
 
-@login_required
+@login_required(login_url="login")
 def atualizar_usuario(request,id):
     obj_user = None
     obj_user = User.objects.get(id=id)
@@ -80,3 +83,6 @@ def atualizar_usuario(request,id):
     return render(request,'atualizar_usuario.html',{'form':form})
     
     
+@login_required(login_url="login")
+def listar_usuarios(request):
+     return render(request,'tables.html',{'users':User.objects.all()})

@@ -1,13 +1,29 @@
-<ul class="d-flex flex-column list-group">
-  {% if user.is_authenticated %}
-  <li><a href="{% url 'clientes:listar_clientes' %}" class="btn btn-primary list-group-item">Menu Clientes</a></li>
-  <li><a href="{% url 'clientes:registrar_novo_cliente' %}" class="btn btn-primary list-group-item">Registrar Novo Cliente</a></li>
-  <li><a href="{% url 'emprestimo:listar_emprestimos' 'emprestimos_em_dia' %}" class="btn btn-primary list-group-item">Menu Emprestimo</a></li>
-  <li><a href="{% url 'emprestimo:registrar_novo_emprestimo' %}" class="btn btn-primary list-group-item">Registrar Novo Emprestimo</a></li>
-  <li><a href="{% url 'login'%}" class="btn btn-primary list-group-item">Menu Usuarios</a></li>
-  <li><a href="{% url 'salvar_usuario' %}" class="btn btn-primary list-group-item">Registrar Novo Usuario</a></li>
-  <li><a href="{% url 'livros:registrar_livro' %}" class="btn btn-fill btn-primary list-group-item">Adicionar Novo Livro</a></li>
-  <li><a href="{% url 'livros:listar_livros' %}" class="btn btn-fill btn-primary list-group-item">Menu Livros</a></li>
-  <li><a href="{% url 'logout' %}" class="btn btn-fill btn-primary list-group-item">Logout</a></li>
-  {% endif %}
-</ul>
+{% load custom_tags %}
+{% if user.is_authenticated %}
+<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+  <i class="fa-solid fa-bars"></i>
+</button>
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Todas Funções</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="dropdown mt-3">
+      <ul class="d-flex flex-column list-group">
+        <li><a href="{% url 'clientes:listar_clientes' %}" class="btn btn-primary list-group-item">Clientes</a></li>
+        <li><a href="{% url 'emprestimo:listar_emprestimos' 'emprestimos_em_dia' %}" class="btn btn-primary list-group-item">Emprestimos</a></li>
+          {% if is_special_user %}
+            <li><a href="{% url 'home'%}" class="btn btn-primary list-group-item">Usuarios</a></li>
+          {% endif %}
+        <li><a href="{% url 'livros:listar_livros' %}" class="btn btn-fill btn-primary list-group-item">Livros</a></li>
+        <li><a href="{% url 'logout' %}" class="btn btn-fill btn-primary list-group-item">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+
+
+

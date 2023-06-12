@@ -8,7 +8,7 @@ from livro.models import livro as Livro
 
 class RegistroEmprestimoForm(ModelForm):
     cliente = forms.ModelChoiceField(queryset=Cliente.objects.all())
-    livro = forms.ModelChoiceField(queryset=Livro.objects.all())
+    livro = forms.ModelChoiceField(queryset=Livro.objects.filter(esta_disponivel=True))
     data_emprestimo = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'placeholder': 'Selecione uma data', 'autocomplete': 'off','value':''}))
     data_devolucao = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'placeholder': 'Selecione uma data', 'autocomplete': 'off','value':''}))
     status_emprestimo = forms.ChoiceField(choices=Status_emprestimo.choices)

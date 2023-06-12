@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from .models import Cliente
 from . import forms
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
-
+@login_required(login_url="login")
 def listar_clientes(request,aviso_ao_usuario="",nome_cliente="listar_todos"):
     messages.error(request,aviso_ao_usuario)
     clientes=None
@@ -19,6 +20,7 @@ def listar_clientes(request,aviso_ao_usuario="",nome_cliente="listar_todos"):
 
     return render(request,"listar_clientes.html",{'clientes':clientes ,'messages':messages,'nome_cliente_para_filtrar':nome_cliente_para_filtrar})
 
+@login_required(login_url="login")
 def registrar_novo_cliente(request):
     if request.method == "POST":
         form_cliente = forms.ClienteForm(request.POST)
@@ -38,7 +40,8 @@ def registrar_novo_cliente(request):
         form_cliente = forms.ClienteForm() 
     return render(request, 'registrar_novo_cliente.html', {'form_cliente': form_cliente})
 
-   
+ 
+@login_required(login_url="login")  
 def deletar_cliente(request, id):
     if request.method == "GET":
         try:
@@ -52,7 +55,7 @@ def deletar_cliente(request, id):
     else:
         return listar_clientes(request,aviso_ao_usuario=aviso_ao_usuario)
 
-    
+@login_required(login_url="login")   
 def atualizar_cliente(request,id):
     cliente = None
     cliente = Cliente.objects.get(id=id)
@@ -64,7 +67,7 @@ def atualizar_cliente(request,id):
     else:
          return render(request,'atualizar_cliente.html',{'form':form})  
         
-    
+@login_required(login_url="login") 
 def pesquisar_cliente(request):
     nome_cliente = None
     if request.method == "POST":

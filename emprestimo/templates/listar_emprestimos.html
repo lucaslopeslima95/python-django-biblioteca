@@ -25,7 +25,8 @@
     <td class="px-1"><a class="btn btn-primary btn-sm" href="{% url 'emprestimo:listar_emprestimos' 'emprestimos_atrasados' %}">Listar Atrasados</a></td>
     <td class="px-1"><a class="btn btn-primary btn-sm" href="{% url 'emprestimo:listar_emprestimos' 'emprestimos_em_dia ' %}">Listar Em Dia</a></td>
     <td class="px-1"><a class="btn btn-primary btn-sm" href="{% url 'emprestimo:listar_emprestimos' 'todos_os_emprestimos' %}">Ver Todos</a></td>
-    <table class="table table-striped-columns p-1 largura_tabela">
+    <td class="px-1"><a href="{% url 'emprestimo:registrar_novo_emprestimo' %}" class="btn btn-primary btn-sm">Registrar Novo Emprestimo</a></td>
+    <table class="table table-dark table-striped-columns">
       <thead>
         <tr>
           <th scope="col">Cliente</th>
@@ -44,8 +45,8 @@
                 <td class="px-1">{{ emprestimo.data_emprestimo }}</td>
                 <td class="px-1">{{ emprestimo.data_devolucao }}</td>
                 <td class="px-1">{{ emprestimo.get_status_emprestimo_display }}</td>
-                <td class="px-1"><a class="btn btn-primary btn-sm" href="{% url 'emprestimo:encerrar_emprestimo' emprestimo.id %}">Encerrar Emprestimo</a></td>
-                <td class="px-1"><a class="btn btn-primary btn-sm" href="{% url 'emprestimo:deletar_emprestimo' emprestimo.id %}">Apagar Emprestimo</a></td>
+                <td class="px-1"><a class="btn btn-primary btn-sm" onclick="return confirm('Confirmar Devolução?')" href="{% url 'emprestimo:encerrar_emprestimo' emprestimo.id %}">Encerrar Emprestimo</a></td>
+                <td class="px-1"><a class="btn btn-primary btn-sm" onclick="return confirm('Deseja realmente Deletar?')" href="{% url 'emprestimo:deletar_emprestimo' emprestimo.id %}">Apagar Emprestimo</a></td>
             </tr>
             
         {% endfor %}

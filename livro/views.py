@@ -3,7 +3,7 @@ from .models import livro as Livro
 from . import forms
 from django.contrib.auth.decorators import login_required
 
-@login_required
+@login_required(login_url="login")
 def listar_livros(request,msg="",titulo_livro="sem_pesquisa"):
     if titulo_livro == "sem_pesquisa":
         livros = Livro.objects.all()
@@ -12,7 +12,7 @@ def listar_livros(request,msg="",titulo_livro="sem_pesquisa"):
     conteudo_pesquisa_form = forms.BuscarLivroForm()
     return render(request,"listar_livros.html",{'livros':livros ,'msg':msg,'conteudo_pesquisa_form':conteudo_pesquisa_form})
 
-@login_required
+@login_required(login_url="login")
 def registrar_livro(request):
     if request.method == "POST":
         form = forms.LivroForm(request.POST)
@@ -39,7 +39,7 @@ def registrar_livro(request):
         form = forms.LivroForm()
         return render(request,'registrar_livro.html',{'form':form})
     
-@login_required   
+@login_required(login_url="login") 
 def apagar_livro(request, id):
     if request.method == "GET":
         try:
@@ -52,7 +52,7 @@ def apagar_livro(request, id):
         return listar_livros(request)
 
     
-@login_required
+@login_required(login_url="login")
 def atualizar_livro(request,id):
     obj_livro = None
     obj_livro = Livro.objects.get(id=id)
@@ -64,7 +64,7 @@ def atualizar_livro(request,id):
     return render(request,'atualizar_livro.html',{'form':form})
     
     
-@login_required
+@login_required(login_url="login")
 def pesquisar_livro(request):
     if request.method == "POST":
         form = forms.BuscarLivroForm(request.POST)

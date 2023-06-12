@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from django.forms import ModelForm
 
 class authForm(forms.Form):
-    username = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Username","class": "form-control"}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={"placeholder": "Senha","class": "form-control"}))
+    username = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Username","class": "form-control",'required':'required'}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={"placeholder": "Senha","class": "form-control",'required':'required'}))
 
 class registerForm(forms.Form):
     username = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Username","class": "form-control"}))

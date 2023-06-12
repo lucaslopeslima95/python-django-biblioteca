@@ -14,11 +14,12 @@
                                 <form method="POST" action="{% url 'livros:pesquisar_livro' %}" class="w-25 d-flex flex-row">
                                     {% csrf_token %}
                                     {{ conteudo_pesquisa_form }}
-                                    <button type="submit" class="btn btn-fill btn-primary">
+                                    <button type="submit" class="btn btn-fill btn-primary btn-sm">
                                         <i class="fa-sharp fa-solid fa-magnifying-glass"></i>
                                     </button>
                                 </form>
-                                <table class="table table-striped-columns">
+                                <td class="px-1"><a href="{% url 'livros:registrar_livro' %}" class="btn btn-fill btn-primary btn-sm">Adicionar Novo Livro</a></td>
+                                <table class="table table-dark table-striped-columns">
                                     <thead>
                                         <tr>
                                             <th scope="col">Titulo</th>
@@ -30,12 +31,12 @@
                                     <tbody>
                                         {% for livro in livros %}
                                         <tr>
-                                            <td>{{ livro.titulo }}</td>
-                                            <td>{{ livro.autor }}</td>
-                                            <td>{{ livro.descricao }}</td>
-                                            <td>{{ livro.isbn }}</td>
-                                            <td><a type="submit" class="btn btn-fill btn-primary" href="{% url 'livros:atualizar_livro' livro.id%}">Atualizar</a></td>
-                                            <th><a type="submit" class="btn btn-fill btn-primary" href="{% url 'livros:apagar_livro' livro.id %}">Delete</th>
+                                            <td class="col-1">{{ livro.titulo }}</td>
+                                            <td class="col-1">{{ livro.autor }}</td>
+                                            <td class="col-1">{{ livro.descricao }}</td>
+                                            <td class="col-1">{{ livro.isbn }}</td>
+                                            <td><a type="submit" class="btn btn-fill btn-primary"  href="{% url 'livros:atualizar_livro' livro.id%}">Atualizar</a></td>
+                                            <th><a type="submit" class="btn btn-fill btn-primary" onclick="return confirm('Deseja realmente Deletar?')" href="{% url 'livros:apagar_livro' livro.id %}">Delete</th>
                                         </tr>
                                         {% endfor %}
                                     </tbody>

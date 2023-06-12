@@ -7,15 +7,18 @@
   <div class="card-header">
     <h4 class="card-title">Clientes</h4>
   </div>
-  <div class="mb-auto">
+  < class="mb-auto">
     <form method="POST" action="{% url 'clientes:pesquisar_cliente' %}" class="w-25 d-flex flex-row">
       {% csrf_token %} 
       {{ nome_cliente_para_filtrar }}
-      <button type="submit" class="btn btn-fill btn-primary">
+      <button type="submit" class="btn btn-fill btn-primary btn-sm">
         <i class="fa-sharp fa-solid fa-magnifying-glass"></i>
       </button>
     </form>
-    <table class="table table-striped-columns ms-1">
+    <div class="vw-25">
+      <a class="btn btn-primary btn-sm vw-25" href="{% url 'clientes:registrar_novo_cliente' %}">Registrar Novo Cliente</a>
+    </div>
+    <table class="table table-condensed table-dark table-striped-columns ">
       <thead>
         <tr>
           <th scope="col">Nome</th>
@@ -29,18 +32,19 @@
       <tbody>
         {% for cliente in clientes %}
         <tr>
-          <td>{{ cliente.nome }}</td>
-          <td>{{ cliente.email }}</td>
-          <td>{{ cliente.data_nascimento }}</td>
-          <td>{{ cliente.endereco }}</td>
-          <td>{{ cliente.telefone }}</td>
+          <td class="col-1">{{ cliente.nome }}</td>
+          <td class="col-1">{{ cliente.email }}</td>
+          <td class="col-1">{{ cliente.data_nascimento }}</td>
+          <td class="col-1">{{ cliente.endereco }}</td>
+          <td class="col-1">{{ cliente.telefone }}</td>
           {% if cliente.pode_fazer_emprestimo %}
-          <td>Nada Consta</td>
+          <td class="col-1">Nada Consta</td>
           {% else %}
-          <td>Cliente Com Débito</td>
+          <td class="col-1">Cliente Com Débito</td>
           {% endif %}
         </tr>
-        <th><a class="btn btn-primary" href="deletar_cliente/{{ cliente.id }}">Delete</th>
+        
+        <th><a class="btn btn-primary" onclick="return confirm('Deseja realmente Deletar?')" href="{% url 'clientes:deletar_cliente' cliente.id %}">Delete</th>
         <th><a class="btn btn-primary" href="{% url 'clientes:atualizar_cliente' cliente.id %}">Atualizar</th>
         {% endfor %}
       </tbody>
