@@ -5,6 +5,7 @@ from django.contrib.auth import logout,login
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from livro import forms
+from django.contrib import messages
 
 
 def is_logged(request,msg=""):
@@ -24,8 +25,10 @@ def login_system(request):
             if user is not None:
                 login(request, user)
                 return is_logged(request)
+            else:
+                messages.warning(request, "Usuario ou Senha Errados.")
         else:
-            form.add_error(None, "Credenciais inválidas.")
+            messages.warning(request, "Credenciais inválidas.")
     else:
         form = authForm()    
     return render(request, 'login.html', {'form': form})
@@ -41,16 +44,13 @@ def salvar_usuario(request):
                 email = form.cleaned_data['email']
                 
                 if User.objects.filter(username=username).exists():
-                    msg = "Usuário já existe"
-                    form.add_error('username', msg)
+                    messages.warning(request, "Usuario já existe")
                 else:
                     User.objects.create_user(username=username, password=password, email=email)
-                    msg = "Salvo com sucesso"
-                return redirect('livros:listar_livros')
+                    messages.success(request, "Salvo com sucesso")
         except Exception as e:
             print(e)
-            msg = "Ocorreu um erro ao registrar o usuário"
-            form.add_error(None, msg)
+            messages.warning(request, "Ocorreu um erro ao registrar o usuário")
     else:
         form = registerForm()
     return render(request, 'salvar_usuario.html', {'form': form})
@@ -78,6 +78,7 @@ def atualizar_usuario(request,id):
     if request.method == "POST":
         if form.is_valid():
             form.save() 
+            messages.success(request, "Atualizado com sucesso")
             return redirect('home')
     return render(request,'atualizar_usuario.html',{'form':form})
     

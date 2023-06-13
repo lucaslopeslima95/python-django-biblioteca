@@ -5,6 +5,11 @@
 <div class="d-flex flex-column">
       <div class="col-md-6 mt-5 offset-md-3 pt-5 mt-5">
         <div class="card">
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">
+              {{ message }}
+          </div>
+          {% endfor %}
 
           <form role="form" method="post" action="">
             {% csrf_token %}
@@ -47,5 +52,11 @@
         </div>
       </div>
     </div>
+    <script>
+      function exibirMensagem(tipo, conteudo) {
+        const messageContainer = document.getElementById('message-container');
+        messageContainer.innerHTML = `<div class="alert alert-${tipo}" role="alert">${conteudo}</div>`;
+      }
+    </script>
 {% endblock content %}
 {% block javascripts %}{% endblock javascripts %}
