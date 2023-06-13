@@ -5,9 +5,10 @@ class Cliente(models.Model):
     email = models.EmailField(unique=True)
     data_nascimento = models.DateField()
     endereco = models.CharField(max_length=200)
+    cpf = models.CharField(max_length=14,unique=True)
     telefone = models.CharField(max_length=30,default=9999-9999)
     pode_fazer_emprestimo = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.nome
+        return (f"Cliente {self.nome} cpf {self.cpf}")
 

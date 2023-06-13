@@ -28,8 +28,9 @@ def registrar_novo_cliente(request):
         if form_cliente.is_valid():
             try:
                 obj_cliente = form_cliente.save(commit=False)
-                if Cliente.objects.filter(email=obj_cliente.email).exists():
-                    aviso_ao_usuario = "Email já ou Cliente já cadastrado"
+                if Cliente.objects.filter(email=obj_cliente.email).exists() \
+                and Cliente.objects.filter(cpf=obj_cliente.email).exists():
+                    aviso_ao_usuario = "Email já ou Cpf já cadastrado"
                     return listar_clientes(request, aviso_ao_usuario=aviso_ao_usuario)
                 else:
                     obj_cliente.save()
