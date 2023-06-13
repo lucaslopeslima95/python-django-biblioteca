@@ -2,15 +2,17 @@
 {% block title %} Login {% endblock %} 
 {% block stylesheets %}{% endblock stylesheets %}
 {% block content %}
-<div class="col-md-12 w-100">
-    <div class="card w-75">
+<div class="col-md-12">
+    <div class="card m-auto">
       <div class="card-header">
         <h4 class="card-title">Salvar Emprestimo</h4>
       </div>
-    <form class="d-flex flex-column card-body w-100 justify-content-center align-items-center" action="{% url 'emprestimo:registrar_novo_emprestimo'%}" method="post">
+    <form class="d-flex flex-column w-75 ms-auto me-auto "  action="{% url 'emprestimo:registrar_novo_emprestimo'%}" method="post">
       {% csrf_token %}
       {{ form.as_p }}
-      <button type="submit" class="btn btn-primary">Salvar</button>
+      <div class="d-flex align-itens-center justify-content-center">
+        <button type="submit" class="btn btn-primary btn-sm">Salvar</button>
+      </div>
     </form>
     </div>
 </div>

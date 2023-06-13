@@ -3,6 +3,7 @@ from .models import Cliente
 from . import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from emprestimo.models import Emprestimo
 
 @login_required(login_url="login")
 def listar_clientes(request,aviso_ao_usuario="",nome_cliente="listar_todos"):
@@ -46,8 +47,12 @@ def deletar_cliente(request, id):
     if request.method == "GET":
         try:
             obj_cliente = Cliente.objects.get(id=id)
-            obj_cliente.delete()
-            aviso_ao_usuario = "Cliente Deletado Com Sucesso"
+            if obj_cliente.pode_fazer_emprestimo:
+                obj_cliente.delete()
+                aviso_ao_usuario = "Cliente Deletado Com Sucesso"
+            else:
+                aviso_ao_usuario = "Cliente Com Débistos"
+            
         except Exception as e:
             aviso_ao_usuario = "Não foi Possivel deletar o cliente"
             print(e)

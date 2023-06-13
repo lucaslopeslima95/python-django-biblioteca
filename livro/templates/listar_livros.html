@@ -35,8 +35,13 @@
                                             <td class="col-1">{{ livro.autor }}</td>
                                             <td class="col-1">{{ livro.descricao }}</td>
                                             <td class="col-1">{{ livro.isbn }}</td>
+                                            {% if user.is_superuser %}
                                             <td><a type="submit" class="btn btn-fill btn-primary"  href="{% url 'livros:atualizar_livro' livro.id%}">Atualizar</a></td>
                                             <th><a type="submit" class="btn btn-fill btn-primary" onclick="return confirm('Deseja realmente Deletar?')" href="{% url 'livros:apagar_livro' livro.id %}">Delete</th>
+                                            {% else %}
+                                            <td><a disabled="true" type="submit" class="btn btn-fill btn-primary"  href="{% url 'livros:atualizar_livro' livro.id%}">Atualizar</a></td>
+                                            <th><a disabled="true" type="submit" class="btn btn-fill btn-primary" onclick="return confirm('Deseja realmente Deletar?')" href="{% url 'livros:apagar_livro' livro.id %}">Delete</th>
+                                            {% endif %}
                                         </tr>
                                         {% endfor %}
                                     </tbody>

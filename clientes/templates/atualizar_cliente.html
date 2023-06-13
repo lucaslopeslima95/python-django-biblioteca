@@ -2,12 +2,16 @@
 {% block title %} Login {% endblock %} 
 {% block stylesheets %}{% endblock stylesheets %}
 {% block content %}
-<h1>Atulizar Cliente</h1>
+<div class="card ">
+<h1 class="mt-3 ms-3">Atualizar Cliente</h1>
 </br>
-<form action="" method="post">
+<form class="mt-2 ms-4 vw-50" action="" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <br>
-    <input type="submit" onclick="return confirm('Deseja realmente Atualizar?')" value="Atualizar" class="btn bnt-secondary">
+    <div class="d-flex justify-content-center">
+        <input type="submit" onclick="return confirm('Deseja realmente Atualizar?')" value="Atualizar" class="btn btn-primary btn-sm">
+    </div>
 </form>
+</div>
 {% endblock content %} {% block javascripts %}{% endblock javascripts %}

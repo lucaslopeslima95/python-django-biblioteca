@@ -7,8 +7,8 @@ from django.contrib.auth.decorators import login_required
 from livro import forms
 
 
-def is_logged(request):
-    return render(request,'listar_livros.html',{'conteudo_pesquisa_form':forms.BuscarLivroForm})
+def is_logged(request,msg=""):
+    return render(request,'listar_livros.html',{'conteudo_pesquisa_form':forms.BuscarLivroForm,'msg':msg})
 
 
 def login_system(request):
@@ -31,7 +31,6 @@ def login_system(request):
     return render(request, 'login.html', {'form': form})
 
 
-@login_required(login_url="login")
 def salvar_usuario(request):
     if request.method == "POST":
         form = registerForm(request.POST)
@@ -45,16 +44,16 @@ def salvar_usuario(request):
                     msg = "Usuário já existe"
                     form.add_error('username', msg)
                 else:
-                    user = User.objects.create_user(username=username, password=password, email=email)
+                    User.objects.create_user(username=username, password=password, email=email)
                     msg = "Salvo com sucesso"
-                    form = authForm()
-                    return is_logged(request,{'msg':msg})
+                return redirect('livros:listar_livros')
         except Exception as e:
+            print(e)
             msg = "Ocorreu um erro ao registrar o usuário"
             form.add_error(None, msg)
     else:
         form = registerForm()
-        return render(request, 'salvar_usuario.html', {'form': form})
+    return render(request, 'salvar_usuario.html', {'form': form})
 
 
 def logout_system(request):
