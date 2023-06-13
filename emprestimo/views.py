@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
-from django.shortcuts import  reverse
 from .forms import RegistroEmprestimoForm
 from .models import Emprestimo
 from livro.models import livro as Livro
 from clientes.models import Cliente
 from livro.forms import BuscarLivroForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from datetime import date
 
 @login_required(login_url="login")
 def listar_emprestimos(request,filtro="titulo_pesquisa"):
@@ -28,22 +29,25 @@ def listar_emprestimos(request,filtro="titulo_pesquisa"):
 
 @login_required(login_url="login")
 def registrar_novo_emprestimo(request):
-    if request.method == 'POST':
-        form = RegistroEmprestimoForm(request.POST)
-        if form.is_valid():
+    try:
+        if request.method == 'POST':
+            form = RegistroEmprestimoForm(request.POST)
             try:
-                if form.cleaned_data['cliente'].pode_fazer_emprestimo:
-                    atualizar_disponibilidade_livro(form.cleaned_data['livro'].id)
-                    atualizar_habilitacao_emprestimo_cliente(form.cleaned_data['cliente'].id)
-                    form.save()
-                else:
-                    pass
+                if form.is_valid():
+                        if form.cleaned_data['cliente'].pode_fazer_emprestimo:
+                            Cliente.objects.filter(id=form.cleaned_data['cliente'].id).update(pode_fazer_emprestimo = False)
+                            Livro.objects.filter(id=form.cleaned_data['livro'].id).update(esta_disponivel = False)
+                            form.save()
+                        else:
+                            messages.warning(request,"Cliente Não pode fazer emprestimos")
             except Exception as e:
                 print(f" Exceção no Registrar novo emprestimo {e}")
-            
-            return redirect('login')
-    else:
-        form = RegistroEmprestimoForm()
+                
+                return redirect('emprestimo:pos_registro_emprestimo')
+        else:
+         form = RegistroEmprestimoForm()
+    except Exception as e:
+        print(f"Excecao no registrar novo emprestimo: {e}")
 
     return render(request, 'registro_emprestimo.html', {'form': form})
 
@@ -67,19 +71,21 @@ def deletar_emprestimo(request,id):
     except Exception as e:
         print(f" Exceção no deletar emprestimo {e}")
 
-    return redirect('emprestimo:listar_emprestimos')
+    return redirect('emprestimo:pos_registro_emprestimo')
 
 @login_required(login_url="login")
 def encerrar_emprestimo(request,id):
     try:
         emprestimo_encerrado = Emprestimo.objects.get(id=id)
         emprestimo_encerrado.status_emprestimo = 3
-        atualizar_disponibilidade_livro(emprestimo_encerrado.livro.id)
-        atualizar_habilitacao_emprestimo_cliente(emprestimo_encerrado.cliente.id)
+        Cliente.objects.filter(id=emprestimo_encerrado.cliente.id).update(pode_fazer_emprestimo = True)
+        Livro.objects.filter(id=emprestimo_encerrado.livro.id).update(esta_disponivel=True)
+        emprestimo_encerrado.data_conclusao_emprestimo = date.today()
         emprestimo_encerrado.save()
     except Exception as e:
         print(f" Exceção no eencerrar emprestimo {e}")
-    return redirect('login')
+        
+    return redirect('emprestimo:pos_registro_emprestimo')
 
 
 @login_required(login_url="login")

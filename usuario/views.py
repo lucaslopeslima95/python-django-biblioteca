@@ -6,10 +6,11 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from livro import forms
 from django.contrib import messages
+import time
 
 
 def is_logged(request,msg=""):
-    return render(request,'listar_livros.html',{'conteudo_pesquisa_form':forms.BuscarLivroForm,'msg':msg})
+    return render(request,'listar_livros.html',{'conteudo_pesquisa_form':forms.BuscarLivroForm})
 
 
 def login_system(request):
@@ -48,6 +49,7 @@ def salvar_usuario(request):
                 else:
                     User.objects.create_user(username=username, password=password, email=email)
                     messages.success(request, "Salvo com sucesso")
+                   
         except Exception as e:
             print(e)
             messages.warning(request, "Ocorreu um erro ao registrar o usuário")

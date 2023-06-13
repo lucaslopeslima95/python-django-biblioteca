@@ -13,6 +13,7 @@ class Emprestimo(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     data_emprestimo = models.DateField()
     data_devolucao = models.DateField()
+    data_conclusao_emprestimo = models.DateField(null=True)
     status_emprestimo = models.IntegerField(default=Status_emprestimo.EM_DIA ,choices=Status_emprestimo.choices)
 
     def __str__(self):

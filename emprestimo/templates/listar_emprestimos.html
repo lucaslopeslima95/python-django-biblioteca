@@ -2,15 +2,13 @@
 {% block title %} Login {% endblock %}
 {% block stylesheets %}{% endblock stylesheets %}
 {% block content %}
-<style>
-  .largura_tabela {
-    width: 80%;
-  }
-  .largura_card{
-    width: 80%;
-  }
-</style>
-<div class="card largura_card">
+<div class="card">
+  {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+          {{ message }}
+    </div>
+  {% endfor %}
+
   <div class="card-header">
     <h4 class="card-title">Emprestimos</h4>
   </div>
@@ -34,6 +32,7 @@
           <th scope="col">Data Emprestimo</th>
           <th scope="col">Devolução Prevista</th>
           <th scope="col">Status Emprestimo</th>
+          <th scope="col">Data de Encerramento</th>
         </tr>
       </thead>
       <tbody>
@@ -44,6 +43,13 @@
                 <td class="px-1">{{ emprestimo.data_emprestimo }}</td>
                 <td class="px-1">{{ emprestimo.data_devolucao }}</td>
                 <td class="px-1">{{ emprestimo.get_status_emprestimo_display }}</td>
+
+                {% if emprestimo.data_conclusao_emprestimo %}
+                  <td class="px-1">{{ emprestimo.data_conclusao_emprestimo }}</td>
+                {% else %}
+                  <td class="px-1">Não Encerrado</td>
+                {% endif %}
+
                 {% if emprestimo.status_emprestimo == 3 %}
                 <td class="px-1"><a class="btn btn-primary btn-sm" onclick="return confirm('Deseja realmente Deletar?')" href="{% url 'emprestimo:deletar_emprestimo' emprestimo.id %}">Apagar Emprestimo</a></td>
                 {% else %}
