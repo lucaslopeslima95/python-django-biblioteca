@@ -19,35 +19,28 @@
 
 <Script>
 
-function mostrarModal(mensagem) {
-  return new Promise((resolve) => {
-    let modal_body_text = document.getElementById('modal-body-text');
-    let element_h3 = document.createElement('h3');
-    element_h3.style.color = 'Gray';
-    element_h3.textContent = mensagem;
-    modal_body_text.appendChild(element_h3);
-
-    var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
-
-    var okButton = document.getElementById('btn-ok');
-    okButton.addEventListener('click', function() {
-      myModal.hide();
-      resolve(true);
-    });
-
-    myModal.show();
-  });
+    function mostrarModal(mensagem) {
+        let modal_body_text = document.getElementById('modal-body-text');
+        let element_h3 = document.createElement('h3');
+        element_h3.style.color = 'Gray';
+        element_h3.textContent = mensagem;
+        modal_body_text.appendChild(element_h3)
+        resposta_modal = false;
+        var myModal = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+        
+        myModal.show();
+        document.getElementById('btn-ok').addEventListener('click',
+            async function(){
+               myModal.hide();
+               resposta_modal = true
+            }
+        )
+        if (resposta_modal){
+            alert(resposta_modal)
+            return true;
+        }else{
+            return false;
+        }
 }
-
-mostrarModal('Deseja continuar?')
-  .then((resposta_modal) => {
-    alert(resposta_modal);
-    if (resposta_modal) {
-      return true;
-    } else {
-      return false;
-    }
-  });
-
 </Script>
 

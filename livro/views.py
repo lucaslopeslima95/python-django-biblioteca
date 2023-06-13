@@ -37,7 +37,7 @@ def registrar_livro(request):
             return listar_livros(request, {"msg": msg})
     else:
         form = forms.LivroForm()
-        return render(request,'registrar_livro.html',{'form':form})
+    return render(request,'registrar_livro.html',{'form':form})
     
 @login_required(login_url="login") 
 def apagar_livro(request, id):
