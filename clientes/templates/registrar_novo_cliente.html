@@ -7,12 +7,7 @@
   <div class="card-body">
     <form role="form" method="post" action="{% url 'clientes:registrar_novo_cliente' %}">
       {% csrf_token %}
-      <div class="mb-3">{{ form_cliente.nome }}</div>
-      <div class="mb-3">{{ form_cliente.email }}</div>
-      <div class="mb-3">{{ form_cliente.data_nascimento }}</div>
-      <div class="mb-3">{{ form_cliente.endereco }}</div>
-      <div class="mb-3">
-        <td>{{ form_cliente.telefone }}</td>
+        <td>{{ form_cliente.as_p }}</td>
       </div>
       <div class="d-flex justify-content-center">
         <button type="submit" class="btn btn-primary btn-sm">Salvar</button>
@@ -20,10 +15,4 @@
     </form>
   </div>
 </div>
-<script>
-  flatpickr("#id_data_nascimento", {
-    dateFormat: "d/m/Y",
-    locale: "pt"
-  });
-</script>
 {% endblock content %} {% block javascripts %}{% endblock javascripts %}

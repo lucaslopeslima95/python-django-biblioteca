@@ -5,7 +5,7 @@
   <form role="form" class="vw-75" method="post" action="{% url 'livros:registrar_livro' %}">
     {% csrf_token %} {{ form.as_p }}
     <div class="d-flex justify-content-center">
-      <button type="submit" class="btn btn-primary bnt-sm" onclick="validarIsbn()">Salvar</button>
+      <button type="submit" class="btn btn-primary bnt-sm">Salvar</button>
     </div>
   </form>
 </div>

@@ -38,17 +38,19 @@
       </thead>
       <tbody>
         {% for emprestimo in emprestimos %}
-           
             <tr>
                 <td class="px-1">{{ emprestimo.cliente }}</td>
                 <td class="px-1">{{ emprestimo.livro }}</td>
                 <td class="px-1">{{ emprestimo.data_emprestimo }}</td>
                 <td class="px-1">{{ emprestimo.data_devolucao }}</td>
                 <td class="px-1">{{ emprestimo.get_status_emprestimo_display }}</td>
-                <td class="px-1"><a class="btn btn-primary btn-sm" onclick="return confirm('Confirmar Devolução?')" href="{% url 'emprestimo:encerrar_emprestimo' emprestimo.id %}">Encerrar Emprestimo</a></td>
+                {% if emprestimo.status_emprestimo == 3 %}
                 <td class="px-1"><a class="btn btn-primary btn-sm" onclick="return confirm('Deseja realmente Deletar?')" href="{% url 'emprestimo:deletar_emprestimo' emprestimo.id %}">Apagar Emprestimo</a></td>
-            </tr>
-            
+                {% else %}
+                <td class="px-1"><a class="btn btn-primary btn-sm" onclick="return confirm('Deseja realmente Deletar?')" href="{% url 'emprestimo:deletar_emprestimo' emprestimo.id %}">Apagar Emprestimo</a></td>
+                <td class="px-1"><a class="btn btn-primary btn-sm" onclick="return confirm('Confirmar Devolução?')" href="{% url 'emprestimo:encerrar_emprestimo' emprestimo.id %}">Encerrar Emprestimo</a></td>
+                {% endif %}
+            </tr>   
         {% endfor %}
       </tbody>
     </table>

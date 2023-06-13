@@ -9,7 +9,6 @@ class LivroForm(ModelForm):
     isbn = forms.CharField(widget=forms.TextInput(attrs={
         "placeholder": "ISBN",
         "class": "form-control",
-        
         'type':'number',
         'maxlength': 17}))
     esta_disponivel = forms.BooleanField(required=False,widget=forms.CheckboxInput(attrs={}),initial=True)

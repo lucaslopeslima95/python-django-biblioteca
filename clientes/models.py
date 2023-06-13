@@ -7,7 +7,7 @@ class Cliente(models.Model):
     endereco = models.CharField(max_length=200)
     cpf = models.CharField(max_length=14,unique=True)
     telefone = models.CharField(max_length=30,default=9999-9999)
-    pode_fazer_emprestimo = models.BooleanField(default=False)
+    pode_fazer_emprestimo = models.BooleanField(default=True)
 
     def __str__(self):
         return (f"Cliente {self.nome} cpf {self.cpf}")
